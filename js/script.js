@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const image = document.querySelector('#game-area img');
     const overlayArea = document.getElementById('overlay-area');
+    const wideButton = document.querySelector('.wide-button');
+
     let scale = 100;
     let touchStartTime;
     let activeTouchId = null;
@@ -23,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
         scale = 100;
         image.style.transform = `scale(${scale / 100})`;
     }
-    
+
     image.addEventListener('touchstart', (event) => {
         if (activeTouchId !== null || event.touches.length > 1) {
             return;
@@ -47,6 +49,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const touchPositionY = touch.clientY;
 
         createFloatingSymbol(touchPositionX, touchPositionY, touchDuration >= 500 ? '-' : '.');
+
+        // Управление заполнением wide-button в зависимости от длительности нажатия
+        if (touchDuration >= 500) {
+            fillWideButton(4); // Длинное нажатие (4%)
+        } else {
+            fillWideButton(1); // Короткое нажатие (1%)
+        }
 
         resetImageSize();
         activeTouchId = null;
@@ -88,5 +97,19 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             symbolElement.remove();
         }, 2000);
+    }
+
+    function fillWideButton(percent) {
+        const buttonWidth = parseFloat(getComputedStyle(wideButton.parentElement).width);
+        const increment = buttonWidth * (percent / 100);
+
+        let currentWidth = parseFloat(wideButton.style.width) || 0;
+        let newWidth = currentWidth + increment;
+
+        if (newWidth > buttonWidth) {
+            newWidth = buttonWidth;
+        }
+
+        wideButton.style.width = `${newWidth}px`;
     }
 });
