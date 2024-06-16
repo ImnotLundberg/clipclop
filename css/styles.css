@@ -1,3 +1,5 @@
+/* styles.css */
+
 body {
     font-family: Arial, sans-serif;
     background-color: rgba(144, 238, 144, 0.55);
@@ -25,14 +27,14 @@ h1 {
 
 #overlay-area {
     position: absolute;
-    top: calc(-3%); /* 200px (image height) + 4px (offset) */
+    top: calc(-3%);
     left: 50%;
-    width: calc(90%); /* Оставляем отступ по 20px слева и справа */
-    height: var(--overlay-height, 70px); /* Настраиваемая высота с значением по умолчанию */
+    width: calc(90%);
+    height: var(--overlay-height, 70px);
     transform: translateX(-50%);
-    background-color: rgba(255, 127, 80, 0.8); /* Полупрозрачный цвет */
+    background-color: rgba(255, 127, 80, 0.8);
     border-radius: 8px;
-    z-index: 10; /* Область над картинкой */
+    z-index: 10;
 }
 
 #game-area {
@@ -42,17 +44,17 @@ h1 {
     justify-content: center;
     align-items: center;
     position: relative;
-    top: 4px; /* Смещение вниз на 4 пикселя */
+    top: 4px;
 }
 
 #game-area img {
     max-width: 100%;
     max-height: 100%;
     border-radius: 8px;
-    user-select: none; /* Отменяем выделение текста */
-    -webkit-user-select: none; /* Для старых версий Safari */
-    -moz-user-select: none; /* Для старых версий Firefox */
-    -ms-user-select: none; /* Для старых версий Internet Explorer/Edge */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 @media (max-width: 600px) {
