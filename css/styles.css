@@ -89,12 +89,11 @@ h1 {
     background-color: rgba(255, 255, 255, 1.0); /* белый цвет */
     border: none;
     margin: 0 0px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.5s ease;
     outline: none; /* Убираем стандартное выделение при фокусе */
     -webkit-tap-highlight-color: transparent; /* Убираем подсветку при нажатии */
 }
 
 .button:active {
-    background-color: rgba(255, 255, 255, 1.0); /* Возвращаем исходный цвет при нажатии */
+    background-color: rgba(154, 205, 50, 0.05); /* Возвращаем исходный цвет при нажатии */
 }
