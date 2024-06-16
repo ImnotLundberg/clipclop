@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: rgba(144, 238, 144, 0.60);
+    background-color: rgba(144, 238, 144, 0.55);
     margin: 0;
     padding: 0;
     display: flex;
@@ -65,5 +65,5 @@ h1 {
     position: absolute;
     font-size: 120px;
     color: white;
-    transition: transform 1.3s linear, opacity 3.75s linear;
+    transition: transform 1.3s linear, opacity 1.4s linear;
 }
