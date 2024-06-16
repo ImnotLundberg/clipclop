@@ -97,3 +97,24 @@ h1 {
 .button:active {
     background-color: rgba(154, 205, 50, 0.05); /* Возвращаем исходный цвет при нажатии */
 }
+
+.button-panel-top {
+    position: fixed;
+    top: 5px; /* Располагаем панель наверху с отступом 5px */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(154, 205, 50, 0.35); /* Цвет фона панели */
+    border-radius: 25px 25px 0px 0px;
+    padding: 10px; /* Поля внутри панели */
+    display: flex;
+    justify-content: space-around;
+    width: 95%;
+    max-width: 400px; /* Максимальная ширина панели */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Тень для панели */
+    z-index: 100; /* Поднимаем панель над остальными элементами */
+}
+
+.button-panel-top .button {
+    width: 60px; /* Ширина кнопок */
+    height: 60px; /* Высота кнопок */
+}
