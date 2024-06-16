@@ -25,10 +25,10 @@ h1 {
 
 #overlay-area {
     position: absolute;
-    top: calc(50% - 204px); /* 200px (image height) + 4px (offset) */
+    top: calc(-3%); /* 200px (image height) + 4px (offset) */
     left: 50%;
-    width: calc(100% - 40px); /* Оставляем отступ по 20px слева и справа */
-    height: var(--overlay-height, 50px); /* Настраиваемая высота с значением по умолчанию */
+    width: calc(90%); /* Оставляем отступ по 20px слева и справа */
+    height: var(--overlay-height, 70px); /* Настраиваемая высота с значением по умолчанию */
     transform: translateX(-50%);
     background-color: rgba(255, 127, 80, 0.8); /* Полупрозрачный цвет */
     border-radius: 8px;
