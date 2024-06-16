@@ -100,7 +100,7 @@ h1 {
 
 .button-panel-top {
     position: fixed;
-    top: 5px; /* Располагаем панель наверху с отступом 5px */
+    top: 3px; /* Располагаем панель наверху с отступом 5px */
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(154, 205, 50, 0.35); /* Цвет фона панели */
@@ -122,11 +122,10 @@ h1 {
 .button-panel-top .profile {
     width: 80px; /* Ширина кнопок */
     height: 80px; /* Высота кнопок */
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 1.0); /* белый цвет */
-    border: none;
-    margin: 0 0px;
-    transition: background-color 0.15s ease;
-    outline: none; /* Убираем стандартное выделение при фокусе */
-    -webkit-tap-highlight-color: transparent; /* Убираем подсветку при нажатии */
+}
+
+.button-panel-top .wide-button {
+    width: 100%; /* Ширина кнопок */
+    height: 20px; /* Высота кнопок */
+    margin: 10px 0 0px 0px;
 }
