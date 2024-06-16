@@ -104,8 +104,8 @@ h1 {
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(154, 205, 50, 0.35); /* Цвет фона панели */
-    border-radius: 0px 0px 25px 25px;
-    padding: 10px; /* Поля внутри панели */
+    border-radius: 0px 0px 10px 10px;
+    padding: 15px; /* Поля внутри панели */
     display: flex;
     justify-content: space-around;
     width: 95%;
@@ -115,13 +115,13 @@ h1 {
 }
 
 .button-panel-top .button {
-    width: 70px; /* Ширина кнопок */
-    height: 30px; /* Высота кнопок */
+    width: 80px; /* Ширина кнопок */
+    height: 20px; /* Высота кнопок */
 }
 
 .button-panel-top .profile {
-    width: 60px; /* Ширина кнопок */
-    height: 60px; /* Высота кнопок */
+    width: 80px; /* Ширина кнопок */
+    height: 80px; /* Высота кнопок */
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 1.0); /* белый цвет */
     border: none;
