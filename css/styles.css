@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: rgba(144, 238, 144, 0.55);
+    background-color: rgba(144, 238, 144, 0.55); /* #90ee90 */
     margin: 0;
     padding: 0;
     display: flex;
@@ -28,7 +28,7 @@ h1 {
     width: calc(90%);
     height: var(--overlay-height, 70px);
     transform: translateX(-50%);
-    background-color: rgba(255, 127, 80, 0.8);
+    background-color: rgba(255, 127, 80, 0.8); /* #ff7f50 */
     border-radius: 8px;
     z-index: 10;
 }
@@ -62,7 +62,7 @@ h1 {
 .symbol {
     position: absolute;
     font-size: 120px;
-    color: white;
+    color: rgba(255, 255, 255, 1.0); /* белый цвет */
     transition: transform 1.3s linear, opacity 1.4s linear;
 }
 
@@ -71,14 +71,14 @@ h1 {
     bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(154, 205, 50, 0.35); /* Цвет панели (фисташковый) */
+    background-color: rgba(154, 205, 50, 0.35); /* #9acd32 */
     border-radius: 25px 25px 0px 0px;
     padding: 15px 10px 10px 10px;
     display: flex;
     justify-content: space-around;
     width: 95%;
     max-width: 400px; /* Максимальная ширина панели */
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* Тень для панели */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Тень для панели */
     z-index: 100; /* Убедитесь, что панель находится над остальными элементами */
 }
 
@@ -86,7 +86,7 @@ h1 {
     width: 80px;
     height: 80px;
     border-radius: 10px;
-    background-color: white; /* Цвет кнопок (белый) */
+    background-color: rgba(255, 255, 255, 1.0); /* белый цвет */
     border: none;
     margin: 0 0px;
     cursor: pointer;
@@ -94,5 +94,5 @@ h1 {
 }
 
 .button:hover {
-    background-color: #f0f0f0; /* Цвет кнопок при наведении */
+    background-color: rgba(154, 205, 50, 0.35); /* цвет кнопок при наведении */
 }
