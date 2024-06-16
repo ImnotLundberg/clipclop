@@ -95,10 +95,6 @@ h1 {
     -webkit-tap-highlight-color: transparent; /* Убираем подсветку при нажатии */
 }
 
-.button:hover {
-    background-color: rgba(154, 205, 50, 0.05); /* Цвет кнопок при наведении */
-}
-
 .button:active {
     background-color: rgba(255, 255, 255, 1.0); /* Возвращаем исходный цвет при нажатии */
 }
