@@ -89,7 +89,7 @@ h1 {
     background-color: rgba(255, 255, 255, 1.0); /* белый цвет */
     border: none;
     margin: 0 0px;
-    transition: background-color 0.5s ease;
+    transition: background-color 0.15s ease;
     outline: none; /* Убираем стандартное выделение при фокусе */
     -webkit-tap-highlight-color: transparent; /* Убираем подсветку при нажатии */
 }
