@@ -94,5 +94,5 @@ h1 {
 }
 
 .button:hover {
-    background-color: rgba(154, 205, 50, 0.15); /* цвет кнопок при наведении */
+    background-color: rgba(154, 205, 50, 0.05); /* цвет кнопок при наведении */
 }
