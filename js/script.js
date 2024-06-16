@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function fillWideButton(percent) {
         const buttonWidth = parseFloat(getComputedStyle(wideButton.parentElement).width);
-        const increment = buttonWidth * (percent / 100);
+        const increment = buttonWidth * (percent / 500);
 
         let currentWidth = parseFloat(wideButton.style.width) || 0;
         let newWidth = currentWidth + increment;
