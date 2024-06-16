@@ -15,11 +15,24 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.0);
+    position: relative;
 }
 
 h1 {
     text-align: center;
     color: #333;
+}
+
+#overlay-area {
+    position: absolute;
+    top: calc(50% - 204px); /* 200px (image height) + 4px (offset) */
+    left: 50%;
+    width: calc(100% - 40px); /* Оставляем отступ по 20px слева и справа */
+    height: var(--overlay-height, 50px); /* Настраиваемая высота с значением по умолчанию */
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный цвет */
+    border-radius: 8px;
+    z-index: 10; /* Область над картинкой */
 }
 
 #game-area {
@@ -28,6 +41,8 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    top: 4px; /* Смещение вниз на 4 пикселя */
 }
 
 #game-area img {
