@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const image = document.querySelector('#game-area img');
+    const overlayArea = document.getElementById('overlay-area');
     let scale = 100;
     let touchStartTime;
     let activeTouchId = null;
@@ -76,8 +77,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.body.appendChild(symbolElement);
 
+        const overlayTop = overlayArea.getBoundingClientRect().top;
+        const translateY = y - overlayTop + fontSize / 2;
+
         requestAnimationFrame(() => {
-            symbolElement.style.transform = 'translateY(-100vh)';
+            symbolElement.style.transform = `translateY(-${translateY}px)`;
             symbolElement.style.opacity = 0;
         });
 
