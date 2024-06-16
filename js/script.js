@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         scale = 100;
         image.style.transform = `scale(${scale / 100})`;
     }
-
+    
     image.addEventListener('touchstart', (event) => {
         if (activeTouchId !== null || event.touches.length > 1) {
             return;

@@ -91,8 +91,13 @@ h1 {
     margin: 0 0px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    outline: none; /* Убираем стандартное выделение при фокусе */
 }
 
 .button:hover {
-    background-color: rgba(154, 205, 50, 0.05); /* цвет кнопок при наведении */
+    background-color: rgba(154, 205, 50, 0.05); /* Цвет кнопок при наведении */
+}
+
+.button:active {
+    background-color: rgba(255, 255, 255, 1.0); /* Возвращаем исходный цвет при нажатии */
 }
