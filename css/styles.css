@@ -124,67 +124,64 @@ h1 {
     height: 80px; /* Высота кнопок */
 }
 
-.button-panel-top .background-wide-button {
-    position: absolute;
-    background-color: inherit;
-    margin: 10px 0px 0px 0px;
-    left:0px;
-    width: 100%; /* Ширина кнопок */
-    height: 20px; /* Высота кнопок */
-    box-shadow: 0 0px 0 10px rgba(180,231,144, 1),
-        inset 0 2px 6px rgba(0, 0, 0, 0.2);
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-    color: white;
-    font-weight: 1000
-}
-
-.button-panel-top .white-wide-button {
-    position: absolute;
-    margin: 10px 0px 0px 0px;
-    left:0px;
-    width: 100%; /* Ширина кнопок */
-    height: 20px; /* Высота кнопок */
-}
-
 .button-panel-top .wide-button {
-    position: absolute;
-    left:0px;
-    width: 100%; /* Ширина кнопок */
-    height: 20px; /* Высота кнопок */
-    margin: 10px 0px 0px 0px;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    text-transform: uppercase;
-    border-radius: 0px 0px 0px 0;
-    background: linear-gradient(to right,
-      rgba(255, 182, 193, 0.9),
-      rgba(255, 102, 102, 0.9),
-      rgba(255, 178, 102, 0.9),
-      rgba(255, 255, 102, 0.9),
-      rgba(102, 255, 102, 0.9),
-      rgba(102, 255, 255, 0.9),
-      rgba(102, 102, 255, 0.9),
-      rgba(255, 182, 193, 0.9)
-    );
-    background-size: 500px 100%;
-    animation: rainbow 60s linear infinite;
-    transition: transform 0.3s ease-out;
-    outline: none; /* Убираем стандартное выделение при фокусе */
-    -webkit-tap-highlight-color: transparent; /* Убираем подсветку при нажатии */
+    position: relative;
+    width: 100%;
+    height: 20px;
+    margin: 0px 0 0px 0px;
+    border: none;
+    overflow: hidden;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.wide-button:hover {
-    transform: scale(1.05);
+.wide-button::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    z-index: 1;
+    transition: width 0.25s ease-in-out;
+}
+
+.background-wide-button {
+    width: 100%;
+    height: 20px;
+    margin: 10px 0 0px 0px;
+    border-radius: 10px;
+    border: none;
+    background:linear-gradient(to right,
+        rgba(255, 182, 193, 0.9),
+        rgba(255, 102, 102, 0.9),
+        rgba(255, 178, 102, 0.9),
+        rgba(255, 255, 102, 0.9),
+        rgba(102, 255, 102, 0.9),
+        rgba(102, 255, 255, 0.9),
+        rgba(102, 102, 255, 0.9),
+        rgba(255, 182, 193, 0.9));
+    animation: rainbow 20s ease infinite;
+    background-size: 400% 400%;
+}
+
+@-webkit-keyframes rainbow {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
 }
 
 @keyframes rainbow {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 1400% 0;
-    }
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
 }
 
+
+#increment-display {
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+    color: white;
+    font-weight: 1000;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8)
 }

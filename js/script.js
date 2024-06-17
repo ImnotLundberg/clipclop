@@ -8,13 +8,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const image = document.querySelector('#game-area img');
     const overlayArea = document.getElementById('overlay-area');
-    const incrementDisplay = document.getElementById('increment-display'); // Получаем элемент для отображения значения
+    const wideButton = document.querySelector('.wide-button');
+    const incrementDisplay = document.getElementById('increment-display');
+
     let scale = 100;
     let touchStartTime;
     let activeTouchId = null;
-    const fontSize = 120;
-
     let increment = 0;
+
+    const fontSize = 120;
 
     function decreaseImageSize() {
         scale -= 2;
@@ -24,10 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function resetImageSize() {
         scale = 100;
         image.style.transform = `scale(${scale / 100})`;
-    }
-
-    function updateIncrementDisplay() {
-        incrementDisplay.textContent = `${increment}%`;
     }
 
     image.addEventListener('touchstart', (event) => {
@@ -52,17 +50,21 @@ document.addEventListener('DOMContentLoaded', function () {
         const touchPositionX = touch.clientX;
         const touchPositionY = touch.clientY;
 
+        createFloatingSymbol(touchPositionX, touchPositionY, touchDuration >= 500 ? '-' : '.');
+
+        // Управление заполнением wide-button в зависимости от длительности нажатия
         if (touchDuration >= 500) {
-            increment += 4;
+            increment += 4; // Длинное нажатие (4%)
         } else {
-            increment += 1;
+            increment += 1; // Короткое нажатие (1%)
         }
 
-        if (increment > 100) increment = 100; // Ограничиваем значение до 100%
+        if (increment > 100) {
+            increment = 100; // Ограничиваем значение до 100%
+        }
 
         updateIncrementDisplay(); // Обновляем отображение значения
-
-        createFloatingSymbol(touchPositionX, touchPositionY, touchDuration >= 500 ? '-' : '.');
+        fillWideButton(increment); // Заполняем кнопку
 
         resetImageSize();
         activeTouchId = null;
@@ -104,5 +106,20 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             symbolElement.remove();
         }, 2000);
+    }
+
+    function fillWideButton(percent) {
+    wideButton.style.setProperty('--fill-width', `${percent}%`);
+    wideButton.style.background = `
+        linear-gradient(to right,
+            rgba(255, 182, 193, 0)${percent}%,
+            white ${percent}%,
+            white 100%
+        )`;
+}
+
+
+    function updateIncrementDisplay() {
+        incrementDisplay.textContent = `${increment}%`;
     }
 });
