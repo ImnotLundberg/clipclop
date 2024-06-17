@@ -158,10 +158,9 @@ h1 {
         rgba(255, 255, 102, 0.9),
         rgba(102, 255, 102, 0.9),
         rgba(102, 255, 255, 0.9),
-        rgba(102, 102, 255, 0.9),
-        rgba(255, 182, 193, 0.9));
-    animation: rainbow 20s ease infinite;
-    background-size: 400% 400%;
+        rgba(102, 102, 255, 0.9));
+    animation: rainbow 30s ease infinite;
+    background-size: 400% 20px;
 }
 
 @-webkit-keyframes rainbow {
