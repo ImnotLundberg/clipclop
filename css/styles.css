@@ -131,7 +131,11 @@ h1 {
     left:0px;
     width: 100%; /* Ширина кнопок */
     height: 20px; /* Высота кнопок */
-    border: 5px solid rgba(255, 182, 193, 1); /* Мягкий розовый */
+    box-shadow: 0 0px 0 10px rgba(180,231,144, 1),
+        inset 0 2px 6px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    color: white;
+    font-weight: 1000
 }
 
 .button-panel-top .white-wide-button {
@@ -152,6 +156,7 @@ h1 {
     font-weight: bold;
     color: white;
     text-transform: uppercase;
+    border-radius: 0px 0px 0px 0;
     background: linear-gradient(to right,
       rgba(255, 182, 193, 0.9),
       rgba(255, 102, 102, 0.9),
