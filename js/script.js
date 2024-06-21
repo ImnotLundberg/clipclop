@@ -1,10 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const isSmartphone = /Mobi|Android/i.test(navigator.userAgent);
+    const buttonOverlay = document.getElementById("button-overlay-area");
+    let isPulsing = false;
 
-    if (!isSmartphone || window.innerWidth > 768) {
-        document.body.innerHTML = '<h1>Это приложение доступно только на смартфонах</h1>';
-        return;
-    }
+    buttonOverlay.addEventListener("click", function() {
+        isPulsing = !isPulsing;
+
+        if (isPulsing) {
+            buttonOverlay.classList.add("pulsing");
+            buttonOverlay.style.opacity = 0.3;
+        } else {
+            buttonOverlay.classList.remove("pulsing");
+            buttonOverlay.style.opacity = 1;
+        }
+    });
 
     const image = document.querySelector('#game-area img');
     const overlayArea = document.getElementById('overlay-area');
@@ -36,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
         activeTouchId = event.changedTouches[0].identifier;
         touchStartTime = new Date().getTime();
         decreaseImageSize();
-        event.preventDefault(); // Предотвращаем стандартное действие (появление контекстного меню)
+        event.preventDefault();
     });
 
     image.addEventListener('touchend', (event) => {
@@ -50,74 +58,88 @@ document.addEventListener('DOMContentLoaded', function () {
         const touchPositionX = touch.clientX;
         const touchPositionY = touch.clientY;
 
-        createFloatingSymbol(touchPositionX, touchPositionY, touchDuration >= 500 ? '-' : '.');
-
-        // Управление заполнением wide-button в зависимости от длительности нажатия
-        if (touchDuration >= 500) {
-            increment += 4; // Длинное нажатие (4%)
+        let symbol, symbolClass;
+        if (isPulsing) {
+            symbol = touchDuration >= 500 ? '-' : '.';
+            symbolClass = 'symbol';
         } else {
-            increment += 1; // Короткое нажатие (1%)
+            symbol = touchDuration >= 500 ? '🧁' : '🍭';
+            symbolClass = 'symbol-eat'; // Используем общий класс для кекса и леденца
         }
 
-        if (increment > 100) {
-            increment = 100; // Ограничиваем значение до 100%
-        }
+        createFloatingSymbol(touchPositionX, touchPositionY, symbol, symbolClass);
 
-        updateIncrementDisplay(); // Обновляем отображение значения
-        fillWideButton(increment); // Заполняем кнопку
+        if (!isPulsing) {
+            if (touchDuration >= 500) {
+                increment += 4;
+            } else {
+                increment += 1;
+            }
+
+            if (increment > 100) {
+                increment = 100;
+            }
+
+            updateIncrementDisplay();
+            fillWideButton(increment);
+        }
 
         resetImageSize();
         activeTouchId = null;
-        event.preventDefault(); // Предотвращаем стандартное действие (появление контекстного меню)
+        event.preventDefault();
     });
 
     image.addEventListener('touchcancel', (event) => {
-        const touch = Array.from(event.changedTouches).find(t => t.identifier === activeTouchId);
-        if (!touch) {
-            return;
-        }
         resetImageSize();
         activeTouchId = null;
     });
 
     image.addEventListener('contextmenu', (event) => {
-        event.preventDefault(); // Предотвращаем стандартное контекстное меню браузера
+        event.preventDefault();
     });
 
-    function createFloatingSymbol(x, y, symbol) {
-        const symbolElement = document.createElement('div');
-        symbolElement.textContent = symbol;
-        symbolElement.className = 'symbol';
-        symbolElement.style.left = `${x}px`;
-        symbolElement.style.top = `${y}px`;
+    function createFloatingSymbol(x, y, symbol, symbolClass) {
+    const symbolElement = document.createElement('div');
+    symbolElement.textContent = symbol;
+    symbolElement.className = symbolClass || 'symbol';
+    symbolElement.style.left = `${x}px`;
+    symbolElement.style.top = `${y}px`;
+
+    // Установка размера только для символов "🧁" и "🍭"
+    if (symbol === '🧁' || symbol === '🍭') {
+        symbolElement.style.fontSize = '60px';
+    } else {
+        // Используем размер по умолчанию для остальных символов
         symbolElement.style.fontSize = `${fontSize}px`;
-        symbolElement.style.pointerEvents = 'none'; // Отключаем события на символе
-
-        document.body.appendChild(symbolElement);
-
-        const overlayTop = overlayArea.getBoundingClientRect().top;
-        const translateY = y - overlayTop + fontSize / 2;
-
-        requestAnimationFrame(() => {
-            symbolElement.style.transform = `translateY(-${translateY}px)`;
-            symbolElement.style.opacity = 0;
-        });
-
-        setTimeout(() => {
-            symbolElement.remove();
-        }, 2000);
     }
 
-    function fillWideButton(percent) {
-    wideButton.style.setProperty('--fill-width', `${percent}%`);
-    wideButton.style.background = `
-        linear-gradient(to right,
-            rgba(255, 182, 193, 0)${percent}%,
-            white ${percent}%,
-            white 100%
-        )`;
+    symbolElement.style.pointerEvents = 'none';
+
+    document.body.appendChild(symbolElement);
+
+    const overlayTop = overlayArea.getBoundingClientRect().top;
+    const translateY = y - overlayTop + (symbol === '🧁' || symbol === '🍭' ? 30 / 2 : fontSize / 2); // Учитываем размер
+
+    requestAnimationFrame(() => {
+        symbolElement.style.transform = `translateY(-${translateY}px)`;
+        symbolElement.style.opacity = 0;
+    });
+
+    setTimeout(() => {
+        symbolElement.remove();
+    }, 2000);
 }
 
+
+    function fillWideButton(percent) {
+        wideButton.style.setProperty('--fill-width', `${percent}%`);
+        wideButton.style.background = `
+            linear-gradient(to right,
+                rgba(255, 182, 193, 0)${percent}%,
+                white ${percent}%,
+                white 100%
+            )`;
+    }
 
     function updateIncrementDisplay() {
         incrementDisplay.textContent = `${increment}%`;

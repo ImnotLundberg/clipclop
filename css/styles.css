@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: rgba(144, 238, 144, 0.55); /* #90ee90 */
+    background-color: rgba(144, 238, 144, 0.55);
     margin: 0;
     padding: 0;
     display: flex;
@@ -28,9 +28,8 @@ h1 {
     width: calc(90%);
     height: var(--overlay-height, 70px);
     transform: translateX(-50%);
-    background-color: rgba(255, 127, 80, 0.8); /* #ff7f50 */
-    border-radius: 8px;
-    z-index: 10;
+    background-color: rgba(255, 127, 80, 0);
+    border-radius: 10px;
 }
 
 #game-area {
@@ -59,10 +58,44 @@ h1 {
     }
 }
 
+.button-overlay-area {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(255, 127, 80, 0.8);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.pulsing {
+    animation: pulse 1s infinite;
+    background-color: rgba(255, 127, 80, 0.5);
+    opacity: 0.5;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.025);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 .symbol {
     position: absolute;
-    font-size: 120px;
-    color: rgba(255, 255, 255, 1.0); /* белый цвет */
+    font-size: 60px;
+    color: rgba(255, 255, 255, 1.0);
+    transition: transform 1.3s linear, opacity 1.4s linear;
+}
+
+.symbol-eat {
+    position: absolute;
+    font-size: 30px;
+    color: rgba(255, 255, 255, 1.0);
     transition: transform 1.3s linear, opacity 1.4s linear;
 }
 
@@ -71,57 +104,57 @@ h1 {
     bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(154, 205, 50, 0.35); /* #9acd32 */
+    background-color: rgba(154, 205, 50, 0.35);
     border-radius: 10px 10px 0px 0px;
     padding: 15px 10px 10px 10px;
     display: flex;
     justify-content: space-around;
     width: 95%;
-    max-width: 400px; /* Максимальная ширина панели */
-    box-shadow: 0 -2px 6px  rgba(0, 0, 0, 0.2); /* Тень для панели */
-    z-index: 100; /* Убедитесь, что панель находится над остальными элементами */
+    max-width: 400px;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+    z-index: 100;
 }
 
 .button {
     width: 80px;
     height: 80px;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 1.0); /* белый цвет */
+    background-color: rgba(255, 255, 255, 1.0);
     border: none;
     margin: 0 0px;
     transition: background-color 0.15s ease;
-    outline: none; /* Убираем стандартное выделение при фокусе */
-    -webkit-tap-highlight-color: transparent; /* Убираем подсветку при нажатии */
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .button:active {
-    background-color: rgba(154, 205, 50, 0.05); /* Возвращаем исходный цвет при нажатии */
+    background-color: rgba(154, 205, 50, 0.05);
 }
 
 .button-panel-top {
     position: fixed;
-    top: 3px; /* Располагаем панель наверху с отступом 5px */
+    top: 3px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(154, 205, 50, 0.35); /* Цвет фона панели */
+    background-color: rgba(154, 205, 50, 0.35);
     border-radius: 0px 0px 10px 10px;
-    padding: 15px; /* Поля внутри панели */
+    padding: 15px;
     display: flex;
     justify-content: space-around;
     width: 95%;
-    max-width: 400px; /* Максимальная ширина панели */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Тень для панели */
-    z-index: 100; /* Поднимаем панель над остальными элементами */
+    max-width: 400px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    z-index: 100;
 }
 
 .button-panel-top .button {
-    width: 80px; /* Ширина кнопок */
-    height: 20px; /* Высота кнопок */
+    width: 80px;
+    height: 20px;
 }
 
 .button-panel-top .profile {
-    width: 80px; /* Ширина кнопок */
-    height: 80px; /* Высота кнопок */
+    width: 80px;
+    height: 80px;
 }
 
 .button-panel-top .wide-button {
@@ -151,30 +184,22 @@ h1 {
     margin: 10px 0 0px 0px;
     border-radius: 10px;
     border: none;
-    background:linear-gradient(to right,
-        rgba(255, 182, 193, 0.9),
-        rgba(255, 102, 102, 0.9),
-        rgba(255, 178, 102, 0.9),
-        rgba(255, 255, 102, 0.9),
-        rgba(102, 255, 102, 0.9),
-        rgba(102, 255, 255, 0.9),
-        rgba(102, 102, 255, 0.9));
+    background: linear-gradient(to right, rgba(255, 182, 193, 0.9), rgba(255, 102, 102, 0.9), rgba(255, 178, 102, 0.9), rgba(255, 255, 102, 0.9), rgba(102, 255, 102, 0.9), rgba(102, 255, 255, 0.9), rgba(102, 102, 255, 0.9));
     animation: rainbow 30s ease infinite;
     background-size: 400% 20px;
 }
 
 @-webkit-keyframes rainbow {
-    0% { background-position: 0% 50% }
-    50% { background-position: 100% 50% }
-    100% { background-position: 0% 50% }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 @keyframes rainbow {
-    0% { background-position: 0% 50% }
-    50% { background-position: 100% 50% }
-    100% { background-position: 0% 50% }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
-
 
 #increment-display {
     z-index: 2;
@@ -182,5 +207,5 @@ h1 {
     width: 100%;
     color: white;
     font-weight: 1000;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8)
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
