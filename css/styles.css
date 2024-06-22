@@ -24,7 +24,8 @@ body {
     height: var(--overlay-height, 70px);
     text-align: center;
     color: white;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(255, 178, 102, 0.9);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
 }
 /* Стили для области оверлея */
 #overlay-area {
@@ -75,6 +76,11 @@ body {
     background-color: rgba(255, 127, 80, 0.8);
     transition: transform 1s, background-color 0.2s;
     box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .button-overlay-area.pulsing {
@@ -82,6 +88,7 @@ body {
     background: linear-gradient(to right, rgba(255, 102, 102, 0.9), rgba(255, 178, 102, 0.9), rgba(255, 255, 102, 0.9), rgba(102, 255, 102, 0.9), rgba(102, 255, 255, 0.9), rgba(102, 102, 255, 0.9));
     background-size: 400% 100%;
     box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     transition: transform 1s, background-color 5s;
 }
 
@@ -107,6 +114,23 @@ body {
     100% {
         background-position: 0% 50%;
     }
+}
+
+.character {
+    width: 50px;
+    height: 50px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 127, 80, 0.15);
+    border-radius: 15px;
+    margin:2%;
+    border:1px solid rgba(255, 255, 255, 0.15);
+    display: flex;              /* Используем flex-контейнер */
+    justify-content: center;    /* Центрируем по горизонтали */
+    align-items: center;
+    font-size: 30px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: bold;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 
