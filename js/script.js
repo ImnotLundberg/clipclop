@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const overlayArea = document.getElementById('overlay-area');
     const wideButton = document.querySelector('.wide-button');
     const incrementDisplay = document.getElementById('increment-display');
+    const morseBar = document.getElementById('morse-bar');
 
     // Начальные значения переменных
     let isPulsing = false;
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const fontSize = 120; // Размер шрифта для основных символов
 
     // Обработчик клика на оверлейной кнопке
-    buttonOverlay.addEventListener("click", function() {
+    buttonOverlay.addEventListener("click", function () {
         isPulsing = !isPulsing;
 
         if (isPulsing) {
@@ -53,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Обработчик окончания касания на изображении
     image.addEventListener('touchend', (event) => {
+        if (activeTouchId === null) {
+            return;
+        }
+
         const touch = Array.from(event.changedTouches).find(t => t.identifier === activeTouchId);
         if (!touch) {
             return;
@@ -79,18 +84,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Обновление инкремента и отображения
         if (!isPulsing) {
-            if (touchDuration >= 500) {
-                increment += 4;
-            } else {
-                increment += 1;
-            }
-
-            if (increment > 100) {
-                increment = 100;
-            }
+            increment += touchDuration >= 500 ? 4 : 1;
+            increment = Math.min(increment, 100); // Ограничение максимального значения
 
             updateIncrementDisplay();
             fillWideButton(increment);
+        } else {
+            handleMorseInput(touchDuration);
         }
 
         resetImageSize();
@@ -121,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (symbol === '🧁' || symbol === '🍭') {
             symbolElement.style.fontSize = '60px';
         } else {
-            // Использование размера по умолчанию для остальных символов
             symbolElement.style.fontSize = `${fontSize}px`;
         }
 
@@ -130,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.appendChild(symbolElement);
 
         const overlayTop = overlayArea.getBoundingClientRect().top;
-        const translateY = y - overlayTop + (symbol === '🧁' || symbol === '🍭' ? 30 / 2 : fontSize / 2); // Учет размера
+        const translateY = y - overlayTop + (symbol === '🧁' || '🍭' ? 30 / 2 : fontSize / 2); // Учет размера
 
         requestAnimationFrame(() => {
             symbolElement.style.transform = `translateY(-${translateY}px)`;
@@ -157,4 +156,48 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateIncrementDisplay() {
         incrementDisplay.textContent = `${increment}%`;
     }
+
+    // Обработчик для декодирования нажатий на изображение по азбуке Морзе
+    let morseInput = ''; // Переменная для хранения последовательности нажатий
+    let morseTimeout; // Таймер для очистки morseInput
+
+    function handleMorseInput(duration) {
+        clearTimeout(morseTimeout);
+
+        morseInput += duration >= 500 ? '-' : '.';
+
+        morseTimeout = setTimeout(() => {
+            const letter = decodeMorse(morseInput);
+            updateMorseBar(letter);
+            morseInput = ''; // Сброс последовательности после декодирования
+        }, 2000); // После 2 секунд декодируем последовательность
+    }
+
+    // Декодирование последовательности по азбуке Морзе
+    function decodeMorse(sequence) {
+        const morseAlphabet = {
+            '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',
+            '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',
+            '-.-': 'K', '.-..': 'L', '--': 'M', '-.': 'N', '---': 'O',
+            '.--.': 'P', '--.-': 'Q', '.-.': 'R', '...': 'S', '-': 'T',
+            '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', '-.--': 'Y',
+            '--..': 'Z', '.----': '1', '..---': '2', '...--': '3', '....-': '4',
+            '.....': '5', '-....': '6', '--...': '7', '---..': '8', '----.': '9',
+            '-----': '0'
+        };
+
+        return morseAlphabet[sequence] || '?'; // Возврат символа или '?' для нераспознанной последовательности
+    }
+
+    // Обновление элемента morse-bar с декодированной буквой и автоматическим скрытием через 3 секунды
+    function updateMorseBar(letter) {
+        morseBar.textContent = letter;
+        morseBar.style.opacity = 1;
+
+        setTimeout(() => {
+            morseBar.textContent = '';
+            morseBar.style.opacity = 0;
+        }, 3000);
+    }
+
 });
