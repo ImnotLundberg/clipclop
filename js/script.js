@@ -1,46 +1,44 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Получаем элементы DOM
     const buttonOverlay = document.getElementById("button-overlay-area");
     const image = document.querySelector('#game-area img');
     const overlayArea = document.getElementById('overlay-area');
     const wideButton = document.querySelector('.wide-button');
     const incrementDisplay = document.getElementById('increment-display');
     const morseBar = document.getElementById('morse-bar');
+    const characterDisplay = document.querySelector('.character');
 
-    // Начальные значения переменных
     let isPulsing = false;
     let scale = 100;
     let touchStartTime;
     let activeTouchId = null;
     let increment = 0;
-    const fontSize = 120; // Размер шрифта для основных символов
+    const fontSize = 120;
 
-    // Обработчик клика на оверлейной кнопке
+    const targetArray = ['t', 'h', 'i', 'n', 'k'];
+    let currentIndex = 0;
+
     buttonOverlay.addEventListener("click", function () {
         isPulsing = !isPulsing;
 
         if (isPulsing) {
             buttonOverlay.classList.add("pulsing");
-            buttonOverlay.style.opacity = 0.9; // Установка прозрачности
+            buttonOverlay.style.opacity = 0.9;
         } else {
             buttonOverlay.classList.remove("pulsing");
-            buttonOverlay.style.opacity = 1; // Восстановление полной видимости
+            buttonOverlay.style.opacity = 1;
         }
     });
 
-    // Уменьшение размера изображения при касании
     function decreaseImageSize() {
         scale -= 2;
         image.style.transform = `scale(${scale / 100})`;
     }
 
-    // Сброс размера изображения
     function resetImageSize() {
         scale = 100;
         image.style.transform = `scale(${scale / 100})`;
     }
 
-    // Обработчик начала касания на изображении
     image.addEventListener('touchstart', (event) => {
         if (activeTouchId !== null || event.touches.length > 1) {
             return;
@@ -52,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
     });
 
-    // Обработчик окончания касания на изображении
     image.addEventListener('touchend', (event) => {
         if (activeTouchId === null) {
             return;
@@ -70,22 +67,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let symbol, symbolClass;
 
-        // Определение символа и его класса в зависимости от состояния pulsing
         if (isPulsing) {
             symbol = touchDuration >= 500 ? '-' : '.';
             symbolClass = 'symbol';
         } else {
             symbol = touchDuration >= 500 ? '🧁' : '🍭';
-            symbolClass = 'symbol-eat'; // Общий класс для кекса и леденца
+            symbolClass = 'symbol-eat';
         }
 
-        // Создание плавающего символа на экране
         createFloatingSymbol(touchPositionX, touchPositionY, symbol, symbolClass);
 
-        // Обновление инкремента и отображения
         if (!isPulsing) {
             increment += touchDuration >= 500 ? 4 : 1;
-            increment = Math.min(increment, 100); // Ограничение максимального значения
+            increment = Math.min(increment, 100);
 
             updateIncrementDisplay();
             fillWideButton(increment);
@@ -98,18 +92,15 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
     });
 
-    // Сброс размера изображения при отмене касания
     image.addEventListener('touchcancel', (event) => {
         resetImageSize();
         activeTouchId = null;
     });
 
-    // Предотвращение контекстного меню при долгом нажатии на изображении
     image.addEventListener('contextmenu', (event) => {
         event.preventDefault();
     });
 
-    // Создание плавающего символа на экране
     function createFloatingSymbol(x, y, symbol, symbolClass) {
         const symbolElement = document.createElement('div');
         symbolElement.textContent = symbol;
@@ -117,19 +108,17 @@ document.addEventListener('DOMContentLoaded', function () {
         symbolElement.style.left = `${x}px`;
         symbolElement.style.top = `${y}px`;
 
-        // Установка размера только для символов "🧁" и "🍭"
         if (symbol === '🧁' || symbol === '🍭') {
             symbolElement.style.fontSize = '60px';
         } else {
             symbolElement.style.fontSize = `${fontSize}px`;
         }
 
-        symbolElement.style.pointerEvents = 'none'; // Исключение символов из событий клика
-
+        symbolElement.style.pointerEvents = 'none';
         document.body.appendChild(symbolElement);
 
         const overlayTop = overlayArea.getBoundingClientRect().top;
-        const translateY = y - overlayTop + (symbol === '🧁' || '🍭' ? 30 / 2 : fontSize / 2); // Учет размера
+        const translateY = y - overlayTop + (symbol === '🧁' || '🍭' ? 30 / 2 : fontSize / 2);
 
         requestAnimationFrame(() => {
             symbolElement.style.transform = `translateY(-${translateY}px)`;
@@ -138,10 +127,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         setTimeout(() => {
             symbolElement.remove();
-        }, 2000); // Удаление символа через 2 секунды
+        }, 2000);
     }
 
-    // Заполнение широкой кнопки
     function fillWideButton(percent) {
         wideButton.style.setProperty('--fill-width', `${percent}%`);
         wideButton.style.background = `
@@ -152,14 +140,12 @@ document.addEventListener('DOMContentLoaded', function () {
             )`;
     }
 
-    // Обновление отображения инкремента
     function updateIncrementDisplay() {
         incrementDisplay.textContent = `${increment}%`;
     }
 
-    // Обработчик для декодирования нажатий на изображение по азбуке Морзе
-    let morseInput = ''; // Переменная для хранения последовательности нажатий
-    let morseTimeout; // Таймер для очистки morseInput
+    let morseInput = '';
+    let morseTimeout;
 
     function handleMorseInput(duration) {
         clearTimeout(morseTimeout);
@@ -169,11 +155,16 @@ document.addEventListener('DOMContentLoaded', function () {
         morseTimeout = setTimeout(() => {
             const letter = decodeMorse(morseInput);
             updateMorseBar(letter);
-            morseInput = ''; // Сброс последовательности после декодирования
-        }, 2000); // После 2 секунд декодируем последовательность
+
+            // Задержка перед созданием characterDiv
+            setTimeout(() => {
+                checkCharacter(letter);
+            }, 2500); // 3 секунды задержка
+
+            morseInput = '';
+        }, 2000);
     }
 
-    // Декодирование последовательности по азбуке Морзе
     function decodeMorse(sequence) {
         const morseAlphabet = {
             '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',
@@ -186,10 +177,32 @@ document.addEventListener('DOMContentLoaded', function () {
             '-----': '0'
         };
 
-        return morseAlphabet[sequence] || '💩'; // Возврат символа или '?' для нераспознанной последовательности
+        return morseAlphabet[sequence] || '💩';
     }
 
-    // Обновление элемента morse-bar с декодированной буквой и автоматическим скрытием через 3 секунды
+    function checkCharacter(letter) {
+        if (letter.toLowerCase() === targetArray[currentIndex]) {
+            const characterDiv = document.createElement('div');
+            characterDiv.classList.add('character'); // Добавляем класс character для анимации
+            characterDiv.textContent = letter;
+            buttonOverlay.appendChild(characterDiv); // Добавляем в buttonOverlay
+
+            currentIndex++;
+
+            if (currentIndex === targetArray.length) {
+                currentIndex = 0;
+                setTimeout(() => {
+                    characterDisplay.textContent = '';
+                }, 2000);
+            }
+        } else {
+            // Если пользователь ошибся, удаляем все созданные символы и сбрасываем индекс
+            const existingCharacters = document.querySelectorAll('.character');
+            existingCharacters.forEach(elem => elem.remove());
+            currentIndex = 0;
+        }
+    }
+
     function updateMorseBar(letter) {
         morseBar.textContent = letter;
         morseBar.style.opacity = 1;
