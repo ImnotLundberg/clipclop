@@ -182,8 +182,6 @@ body {
 .button-panel {
     position: fixed;
     bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%);
     background-color: rgba(154, 205, 50, 0.35);
     border-radius: 10px 10px 0px 0px;
     padding: 15px 10px 10px 10px;
@@ -217,8 +215,6 @@ body {
 .button-panel-top {
     position: fixed;
     top: 3px;
-    left: 50%;
-    transform: translateX(-50%);
     background-color: rgba(154, 205, 50, 0.35);
     border-radius: 0px 0px 10px 10px;
     padding: 15px;
@@ -296,4 +292,20 @@ body {
     color: white;
     font-weight: 1000;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.button-panel, .button-panel-top {
+    transition: transform 0.3s ease-out;
+}
+
+.button-panel-hidden {
+    transform: translateY(100%);
+}
+
+.button-panel-top.button-panel-hidden {
+    transform: translateY(-100%);
+}
+
+.button-panel-visible {
+    transform: translateY(0%);
 }

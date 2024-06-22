@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const incrementDisplay = document.getElementById('increment-display');
     const morseBar = document.getElementById('morse-bar');
     const characterDisplay = document.querySelector('.character');
+    const buttonPanel = document.querySelector('.button-panel');
+    const buttonPanelTop = document.querySelector('.button-panel-top');
 
     let isPulsing = false;
     let scale = 100;
@@ -23,9 +25,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isPulsing) {
             buttonOverlay.classList.add("pulsing");
             buttonOverlay.style.opacity = 0.9;
+
+            // Скрыть панели
+            buttonPanel.classList.add('button-panel-hidden');
+            buttonPanelTop.classList.add('button-panel-hidden');
         } else {
             buttonOverlay.classList.remove("pulsing");
             buttonOverlay.style.opacity = 1;
+
+            // Показать панели
+            buttonPanel.classList.remove('button-panel-hidden');
+            buttonPanelTop.classList.remove('button-panel-hidden');
         }
     });
 
