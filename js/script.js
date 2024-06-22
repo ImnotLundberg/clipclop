@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function checkCharacter(letter) {
         if (letter.toLowerCase() === targetArray[currentIndex]) {
             const characterDiv = document.createElement('div');
-            characterDiv.classList.add('character'); // Добавляем класс character для анимации
+            characterDiv.classList.add('character', 'fade-in'); // Добавляем класс character для анимации
             characterDiv.textContent = letter;
             buttonOverlay.appendChild(characterDiv); // Добавляем в buttonOverlay
 
@@ -198,7 +198,12 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             // Если пользователь ошибся, удаляем все созданные символы и сбрасываем индекс
             const existingCharacters = document.querySelectorAll('.character');
-            existingCharacters.forEach(elem => elem.remove());
+            existingCharacters.forEach(elem => {
+                elem.classList.add('fade-out');
+                setTimeout(() => {
+                    elem.remove();
+                }, 1000);
+            });
             currentIndex = 0;
         }
     }

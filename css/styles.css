@@ -116,6 +116,22 @@ body {
     }
 }
 
+/* Анимация для появления (создания) элемента */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Анимация для исчезания (удаления) элемента */
+@keyframes spinDisappear {
+  0% { transform: rotate(0deg); opacity: 1; }
+  100% { transform: rotate(360deg); opacity: 0; }
+}
+
 .character {
     width: 50px;
     height: 50px;
@@ -131,19 +147,19 @@ body {
     color: rgba(255, 255, 255, 0.8);
     font-weight: bold;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 2s forwards;
     opacity:0;
 }
 
+/* Применение анимации для появления (создания) */
+.character.fade-in {
+  opacity: 1;
+  animation: fadeIn 3s ease forwards;
+}
 
-/* Определим анимацию fadeIn */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+/* Применение анимации для исчезания (удаления) */
+.character.fade-out {
+  opacity:0;
+  animation: spinDisappear 2s forwards;
 }
 
 /* Общие стили для плавающих символов */
