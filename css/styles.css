@@ -18,16 +18,17 @@ body {
     position: relative;
 }
 
-/* Стили для заголовка */
-h1 {
+#morse-bar {
+    left: 50%;
+    font-size: 40px;
+    height: var(--overlay-height, 70px);
     text-align: center;
-    color: #333;
+    color: white;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(255, 178, 102, 0.9);
 }
-
 /* Стили для области оверлея */
 #overlay-area {
     position: relative;
-    top: calc(-3%);
     left: 50%;
     height: var(--overlay-height, 70px);
     transform: translateX(-50%);
