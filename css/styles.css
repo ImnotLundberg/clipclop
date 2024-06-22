@@ -52,7 +52,7 @@ body {
 #game-area img {
     max-width: 100%;
     max-height: 100%;
-    border-radius: 0px;
+    border-radius: 15px;
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -233,12 +233,14 @@ body {
 /* Стили для кнопок и элементов в панели вверху */
 .button-panel-top .button {
     width: 80px;
-    height: 20px;
+    height: 50px;
+    border-radius: 15px;
 }
 
 .button-panel-top .profile {
     width: 80px;
     height: 80px;
+    border-radius: 15px;
 }
 
 .button-panel-top .wide-button {
