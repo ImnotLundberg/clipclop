@@ -47,6 +47,12 @@ document.addEventListener('DOMContentLoaded', function () {
         activeTouchId = event.changedTouches[0].identifier;
         touchStartTime = new Date().getTime();
         decreaseImageSize();
+
+        // Добавляем вибрацию при нажатии
+        if (navigator.vibrate) {
+            navigator.vibrate(30); // Вибрация на 30 мс
+        }
+
         event.preventDefault();
     });
 
@@ -89,6 +95,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         resetImageSize();
         activeTouchId = null;
+
+        // Добавляем вибрацию при отпускании
+        if (navigator.vibrate) {
+            navigator.vibrate(30); // Вибрация на 30 мс
+        }
+
         event.preventDefault();
     });
 
