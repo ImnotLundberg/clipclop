@@ -20,12 +20,14 @@ document.addEventListener('DOMContentLoaded', function () {
     let activeTouchId = null;
     let increment = 0;
     const fontSize = 120;
+    const decrementInterval = 3000; // Интервал для уменьшения процента (в мс)
 
     // Целевой массив символов для сравнения
     const targetArray = ['t', 'h', 'i', 'n', 'k'];
     let currentIndex = 0;
 
     // Константы для времени и значений
+    const decrementAmount = 1; // Константа для скорости уменьшения инкремента (в процентах в секунду)
     const shortTouchDuration = 500; // Длительность короткого нажатия (в мс)
     const shortVibrationDuration = 30; // Длительность короткой вибрации (в мс)
     const longVibrationDuration = 30; // Длительность длинной вибрации (в мс)
@@ -59,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     updateIncrementDisplay(); // Инициализация при загрузке страницы
-    
+
     // Обработчик клика на кнопку overlay
     buttonOverlay.addEventListener("click", function () {
         isPulsing = !isPulsing;
@@ -283,4 +285,13 @@ document.addEventListener('DOMContentLoaded', function () {
             morseBar.style.opacity = 0;
         }, morseBarDisplayDuration);
     }
+
+    // Уменьшение инкремента каждую секунду
+    setInterval(() => {
+        if (increment > 0) {
+            increment-= decrementAmount;
+            updateIncrementDisplay();
+            fillWideButton(increment);
+        }
+    }, decrementInterval);
 });
