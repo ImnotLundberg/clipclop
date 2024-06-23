@@ -300,7 +300,6 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             // Удалить все div элементы внутри buttonOverlay
             buttonOverlay.innerHTML = '';
-
             // Вернуть состояние кнопки в false
             isButtonOverlayActive = false;
             buttonOverlay.classList.remove('pulsing', 'game-over-animation');

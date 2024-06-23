@@ -78,7 +78,7 @@ body {
     border: none;
     border-radius: 10px;
     background-color: rgba(255, 127, 80, 0.8);
-    transition: transform 1s, background-color 1s;
+    transition: transform 1s, background-color 0.1s;
     box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.15);
     display: flex;
@@ -143,31 +143,37 @@ body {
 }
 
 .button-overlay-area.pulsing.game-over-animation {
-    background: rgba(102, 255, 255, 0.9);
+    background: rgba(255, 127, 80, 0.9);
     animation: scaleUp 2s forwards, changeColor 2s forwards, changeBorder 2s forwards, changeShadow 2s forwards;
+    100% { border: 1px solid rgba(255, 255, 255, 0.15); } /* Конечное значение */
+    100% { box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2); } /* Конечное значение */
 }
 
 @keyframes scaleUp {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(5); opacity: 0.75; }
-    80% { transform: scale(0.8); opacity: 0.9; }
-    100% { transform: scale(1); opacity: 1; }
+    0% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.2); opacity: 0.9; }
+    80% { transform: scale(0.95); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 0.9; }
 }
 
 @keyframes changeColor {
     0% { background: rgba(102, 255, 255, 0.9); }
-    50% { background: rgba(102, 255, 255, 0.9); }
     70% { background: rgba(255, 255, 102, 0.9); }
-    100% { background: rgba(255, 127, 80, 0.8); }
+    80% { background: rgba(255, 127, 80, 0.9); }
+    100% { background: rgba(255, 127, 80, 0.9); }
 }
 
 @keyframes changeBorder {
     0% { border: 0px solid rgba(0, 0, 0, 0); } /* Начальное значение */
+    80% { border: 1px solid rgba(255, 255, 255, 0.15); } /* Конечное значение */
     100% { border: 1px solid rgba(255, 255, 255, 0.15); } /* Конечное значение */
 }
 
 @keyframes changeShadow {
-    0% { box-shadow: none; } /* Начальное значение */
+    0% { box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2); } /* Конечное значение */
+    50% { box-shadow: 0 -3px 8px rgba(0, 0, 0, 0.2); } /* Конечное значение */
+    60% { box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2); } /* Конечное значение */
+    70% { box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2); } /* Конечное значение */
     100% { box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2); } /* Конечное значение */
 }
 
