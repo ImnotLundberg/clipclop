@@ -251,9 +251,22 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
+.button.bottom-panel-button {
+    background: radial-gradient(circle, rgba(250, 218, 221, 1) 0%, rgba(230,230,250, 1) 100%);
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.bottom-panel-button:hover{
+    background: radial-gradient(circle, rgba(250, 218, 221, 1) 50%, rgba(230,230,250, 1) 100%);
+}
+
 /* Эффект нажатия на кнопку */
 .button:active {
     background-color: rgba(154, 205, 50, 0.05);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 /* Панель кнопок вверху экрана */
