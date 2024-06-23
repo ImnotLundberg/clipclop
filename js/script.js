@@ -328,8 +328,8 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             const countdownDiv = document.createElement('div');
             countdownDiv.classList.add('character');
-            countdownDiv.style.opacity = '1'; // Устанавливаем полную непрозрачность
-            countdownDiv.style.height = '350px';
+            countdownDiv.style.opacity = '1'; // Устанавливаем полную непрозрачностьcountdownDiv.style
+            countdownDiv.style.width = '350px';
 
             // Время для обратного отсчета в секундах
             let timeLeft = 30; // 30 секунд
