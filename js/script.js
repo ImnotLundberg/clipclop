@@ -293,21 +293,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Функция завершения игры
     function handleGameEnd() {
-        // Здесь включить анимацию завершения игры для кнопки button-overlay-area
-        buttonOverlay.classList.add('game-over-animation');
-
-        // Ждем завершения анимации
+        // Задержка на 2 секунды перед добавлением класса
         setTimeout(() => {
-            // Удалить все div элементы внутри buttonOverlay
-            buttonOverlay.innerHTML = '';
-            // Вернуть состояние кнопки в false
-            isButtonOverlayActive = false;
-            buttonOverlay.classList.remove('pulsing', 'game-over-animation');
-            buttonOverlay.style.opacity = 1;
-            buttonPanel.classList.remove('button-panel-hidden');
-            buttonPanelTop.classList.remove('button-panel-hidden');
-        }, 2000);
+            buttonOverlay.classList.add('game-over-animation');
+
+            // Ждем завершения анимации
+            setTimeout(() => {
+                // Удалить все div элементы внутри buttonOverlay
+                buttonOverlay.innerHTML = '';
+                // Вернуть состояние кнопки в false
+                isButtonOverlayActive = false;
+                buttonOverlay.classList.remove('pulsing', 'game-over-animation');
+                buttonOverlay.style.opacity = 1;
+                buttonPanel.classList.remove('button-panel-hidden');
+                buttonPanelTop.classList.remove('button-panel-hidden');
+            }, 2000); // 2000 миллисекунд = 2 секунды
+        }, 2500); // 2500 миллисекунд = 2,3 секунды
     }
+
 
     // Обновление отображения символа в morseBar
     function updateMorseBar(letter) {
