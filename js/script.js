@@ -10,7 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const buttonPanel = document.querySelector('.button-panel');
     const buttonPanelTop = document.querySelector('.button-panel-top');
 
-    // Флаги и переменные состояния
+    // Переменная для значения заполнения wideButton
+    let fillPercentage;
+
+    // Константы и переменные состояния
     let isPulsing = false;
     let scale = 100;
     let touchStartTime;
@@ -71,6 +74,14 @@ document.addEventListener('DOMContentLoaded', function () {
             buttonPanelTop.classList.remove('button-panel-hidden');
         }
     });
+
+    // Функция заполнения wideButton
+    function fillWideButton(percent) {
+        fillPercentage = `${percent}%`;
+
+        wideButton.style.setProperty('--fill-width', fillPercentage);
+        wideButton.style.background = wideButtonFillGradient.replace(/0%/g, fillPercentage);
+    }
 
     // Функция уменьшения размера изображения при касании
     function decreaseImageSize() {
