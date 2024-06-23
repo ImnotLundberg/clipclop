@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let fillPercentage;
 
     // Константы и переменные состояния
-    let isPulsing = false;
+    let isButtonOverlayActive = false; // Изменено на isButtonOverlayActive
     let scale = 100;
     let touchStartTime;
     let activeTouchId = null;
@@ -64,9 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Обработчик клика на кнопку overlay
     buttonOverlay.addEventListener("click", function () {
-        isPulsing = !isPulsing;
+        isButtonOverlayActive = !isButtonOverlayActive;
 
-        if (isPulsing) {
+        if (isButtonOverlayActive) {
             buttonOverlay.classList.add("pulsing");
             buttonOverlay.style.opacity = 0.9;
             buttonPanel.classList.add('button-panel-hidden');
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let symbol, symbolClass;
 
-        if (isPulsing) {
+        if (isButtonOverlayActive) {
             symbol = touchDuration >= shortTouchDuration ? dashSymbol : dotSymbol;
             symbolClass = 'symbol';
         } else {
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         createFloatingSymbol(touchPositionX, touchPositionY, symbol, symbolClass);
 
-        if (!isPulsing) {
+        if (!isButtonOverlayActive) {
             increment += touchDuration >= shortTouchDuration ? 4 : 1;
             increment = Math.min(increment, maxIncrement);
 
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const symbolElement = document.createElement('div');
         symbolElement.textContent = symbol;
         symbolElement.className = symbolClass || 'symbol';
-        symbolElement.style.left = `${x}px`;
+        symbolElement.style        .left = `${x}px`;
         symbolElement.style.top = `${y}px`;
 
         if (symbol === cupcakeSymbol || symbol === lollipopSymbol) {
@@ -207,17 +207,6 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             symbolElement.remove();
         }, 2000);
-    }
-
-    // Функция заполнения wideButton
-    function fillWideButton(percent) {
-        wideButton.style.setProperty('--fill-width', `${percent}%`);
-        wideButton.style.background = wideButtonFillGradient.replace(/0%/g, `${percent}%`);
-    }
-
-    // Функция обновления отображения инкремента
-    function updateIncrementDisplay() {
-        incrementDisplay.textContent = `${increment}%`;
     }
 
     // Переменные для работы с азбукой Морзе
@@ -289,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Уменьшение инкремента каждую секунду
     setInterval(() => {
         if (increment > 0) {
-            increment-= decrementAmount;
+            increment -= decrementAmount;
             updateIncrementDisplay();
             fillWideButton(increment);
         }
