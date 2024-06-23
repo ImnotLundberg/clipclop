@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Константы и переменные состояния
     let isButtonOverlayActive = false; // Изменено на isButtonOverlayActive
+    let countdownActive = false;
     let scale = 100;
     let touchStartTime;
     let activeTouchId = null;
@@ -64,18 +65,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Обработчик клика на кнопку overlay
     buttonOverlay.addEventListener("click", function () {
-        isButtonOverlayActive = !isButtonOverlayActive;
+        if (!countdownActive) {
+            isButtonOverlayActive = !isButtonOverlayActive;
 
-        if (isButtonOverlayActive) {
-            buttonOverlay.classList.add("pulsing");
-            buttonOverlay.style.opacity = 0.9;
-            buttonPanel.classList.add('button-panel-hidden');
-            buttonPanelTop.classList.add('button-panel-hidden');
-        } else {
-            buttonOverlay.classList.remove("pulsing");
-            buttonOverlay.style.opacity = 1;
-            buttonPanel.classList.remove('button-panel-hidden');
-            buttonPanelTop.classList.remove('button-panel-hidden');
+            if (isButtonOverlayActive) {
+                buttonOverlay.classList.add("pulsing");
+                buttonOverlay.style.opacity = 0.9;
+                buttonPanel.classList.add('button-panel-hidden');
+                buttonPanelTop.classList.add('button-panel-hidden');
+            } else {
+                buttonOverlay.classList.remove("pulsing");
+                buttonOverlay.style.opacity = 1;
+                buttonPanel.classList.remove('button-panel-hidden');
+                buttonPanelTop.classList.remove('button-panel-hidden');
+            }
         }
     });
 
@@ -297,6 +300,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Функция завершения игры
     function handleGameEnd() {
+        countdownActive = false;
+
         // Задержка на 2 секунды перед добавлением класса
         setTimeout(() => {
             buttonOverlay.classList.add('game-over-animation');
@@ -313,6 +318,41 @@ document.addEventListener('DOMContentLoaded', function () {
                 buttonPanelTop.classList.remove('button-panel-hidden');
             }, 2000); // 2000 миллисекунд = 2 секунды
         }, 2500); // 2500 миллисекунд = 2,3 секунды
+
+        startCountdown(); // Начать обратный отсчет
+    }
+
+    function startCountdown() {
+        countdownActive = true;
+
+        setTimeout(() => {
+            const countdownDiv = document.createElement('div');
+            countdownDiv.classList.add('character');
+            countdownDiv.style.opacity = '1'; // Устанавливаем полную непрозрачность
+            countdownDiv.style.width = '175px';
+
+            // Время для обратного отсчета в секундах
+            let timeLeft = 30; // 3 минуты = 180 секунд
+
+            const countdownInterval = setInterval(() => {
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+
+                countdownDiv.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                timeLeft--;
+
+                if (timeLeft < 0) {
+                    clearInterval(countdownInterval);
+                    countdownDiv.remove();
+                    countdownActive = false;
+                }
+            }, 1000);
+
+            buttonOverlay.appendChild(countdownDiv);
+            buttonOverlay.disabled = true; // Делаем кнопку неактивной
+        }, 5000); // Задержка в 5000 миллисекунд = 5 секунд
     }
 
     // Обновление отображения символа в morseBar
