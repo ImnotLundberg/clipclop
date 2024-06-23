@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Переменная для значения заполнения wideButton
     let fillPercentage;
     // Время для обратного отсчета в секундах
-    let timeLeft = 30; // 30 секунд
+    const initialTimeLeft = 30; // 30 секунд
     // Константы и переменные состояния
     let isButtonOverlayActive = false; // Изменено на isButtonOverlayActive
     let countdownActive = false;
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let touchStartTime;
     let activeTouchId = null;
     let increment = 0;
+    let timeLeft = initialTimeLeft;
     const fontSize = 120;
     const decrementInterval = 3000; // Интервал для уменьшения процента (в мс)
 
@@ -256,6 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (currentIndex === targetArray.length) {
                 // Все символы массива проверены
+                timeLeft = initialTimeLeft;
                 handleGameEnd();
             }
         } else {
@@ -293,10 +295,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Сбросить индекс для нового слова
                 currentIndex = 0;
+                startCountdown(); // Начать обратный отсчет
             }, 2000); // 2000 миллисекунд = 2 секунды
         }, 2500); // 2500 миллисекунд = 2,5 секунды
-
-        startCountdown(); // Начать обратный отсчет
     }
 
     function startCountdown() {
@@ -332,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             buttonOverlay.appendChild(countdownDiv);
             buttonOverlay.disabled = true; // Делаем кнопку неактивной во время таймера
-        }, 4850); // Задержка в 5 секунд перед стартом таймера
+        }, 100); // Задержка в 5 секунд перед стартом таймера
     }
 
     // Обновление отображения символа в morseBar
