@@ -23,7 +23,7 @@ body {
     justify-content: center;
 }
 
-#morse-bar {
+.morse-bar {
     position: relative;
     bottom: 8%;
     font-size: 40px;

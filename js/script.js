@@ -79,6 +79,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    function updateMorseBarVisibility() {
+        if (isButtonOverlayActive) {
+            morseBar.style.opacity = '1'; // Показываем элемент
+        } else {
+            morseBar.style.opacity = '0'; // Скрываем элемент
+        }
+    }
+
     // Функция заполнения wideButton
     function fillWideButton(percent) {
         fillPercentage = `${percent}%`;
@@ -160,10 +168,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         resetImageSize();
         activeTouchId = null;
-
-        if (navigator.vibrate) {
-            navigator.vibrate(longVibrationDuration);
-        }
 
         event.preventDefault();
     });
@@ -310,7 +314,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 2000); // 2000 миллисекунд = 2 секунды
         }, 2500); // 2500 миллисекунд = 2,3 секунды
     }
-
 
     // Обновление отображения символа в morseBar
     function updateMorseBar(letter) {
