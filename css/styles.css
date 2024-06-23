@@ -251,7 +251,7 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
-.button.bottom-panel-button {
+.bottom-panel-button {
     background: radial-gradient(circle, rgba(250, 218, 221, 1) 0%, rgba(230,230,250, 1) 100%);
     border: 0.5px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.2);
@@ -267,6 +267,12 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.button-panel-top .three-button-panel {
+    gap:15px;
+    display: flex;
+    justify-content: space-around;
 }
 
 /* Панель кнопок вверху экрана */
