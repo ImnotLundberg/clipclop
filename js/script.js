@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Переменная для значения заполнения wideButton
     let fillPercentage;
-
+    // Время для обратного отсчета в секундах
+    let timeLeft = 30; // 30 секунд
     // Константы и переменные состояния
     let isButtonOverlayActive = false; // Изменено на isButtonOverlayActive
     let countdownActive = false;
@@ -254,34 +255,6 @@ document.addEventListener('DOMContentLoaded', function () {
             currentIndex++;
 
             if (currentIndex === targetArray.length) {
-                currentIndex = 0;
-                setTimeout(() => {
-                    characterDisplay.textContent = '';
-                }, characterDisplayDuration);
-            }
-        } else {
-            const existingCharacters = document.querySelectorAll('.character');
-            existingCharacters.forEach(elem => {
-                elem.classList.add(fadeOutClass);
-                setTimeout(() => {
-                    elem.remove();
-                }, fadeOutDuration);
-            });
-            currentIndex = 0;
-        }
-    }
-
-    // Проверка введенного символа с целевым массивом
-    function checkCharacter(letter) {
-        if (letter.toLowerCase() === targetArray[currentIndex]) {
-            const characterDiv = document.createElement('div');
-            characterDiv.classList.add('character', fadeInClass);
-            characterDiv.textContent = letter;
-            buttonOverlay.appendChild(characterDiv);
-
-            currentIndex++;
-
-            if (currentIndex === targetArray.length) {
                 // Все символы массива проверены
                 handleGameEnd();
             }
@@ -309,15 +282,19 @@ document.addEventListener('DOMContentLoaded', function () {
             // Ждем завершения анимации
             setTimeout(() => {
                 // Удалить все div элементы внутри buttonOverlay
-                buttonOverlay.innerHTML = '';
+                const characterDivs = buttonOverlay.querySelectorAll('.character');
+                characterDivs.forEach(div => div.remove());
                 // Вернуть состояние кнопки в false
                 isButtonOverlayActive = false;
                 buttonOverlay.classList.remove('pulsing', 'game-over-animation');
                 buttonOverlay.style.opacity = 1;
                 buttonPanel.classList.remove('button-panel-hidden');
                 buttonPanelTop.classList.remove('button-panel-hidden');
+
+                // Сбросить индекс для нового слова
+                currentIndex = 0;
             }, 2000); // 2000 миллисекунд = 2 секунды
-        }, 2500); // 2500 миллисекунд = 2,3 секунды
+        }, 2500); // 2500 миллисекунд = 2,5 секунды
 
         startCountdown(); // Начать обратный отсчет
     }
@@ -328,11 +305,8 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             const countdownDiv = document.createElement('div');
             countdownDiv.classList.add('character');
-            countdownDiv.style.opacity = '1'; // Устанавливаем полную непрозрачностьcountdownDiv.style
+            countdownDiv.style.opacity = '1'; // Устанавливаем полную непрозрачность
             countdownDiv.style.width = '200px';
-
-            // Время для обратного отсчета в секундах
-            let timeLeft = 30; // 30 секунд
 
             const countdownInterval = setInterval(() => {
                 const hours = Math.floor(timeLeft / 3600);
@@ -350,14 +324,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Включаем кнопку после завершения таймера
                     buttonOverlay.disabled = false;
+
+                    // Запускаем checkCharacter после завершения обратного отсчета
+                    checkCharacter();
                 }
             }, 1000);
 
             buttonOverlay.appendChild(countdownDiv);
             buttonOverlay.disabled = true; // Делаем кнопку неактивной во время таймера
-        }, 5000); // Задержка в 5 секунд перед стартом таймера
+        }, 4850); // Задержка в 5 секунд перед стартом таймера
     }
-
 
     // Обновление отображения символа в morseBar
     function updateMorseBar(letter) {
