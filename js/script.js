@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Элементы DOM
     const buttonOverlay = document.getElementById("button-overlay-area");
     const image = document.querySelector('#game-area img');
     const overlayArea = document.getElementById('overlay-area');
@@ -10,45 +9,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const buttonPanel = document.querySelector('.button-panel');
     const buttonPanelTop = document.querySelector('.button-panel-top');
 
-    // Переменная для значения заполнения wideButton
     let fillPercentage;
-
-    // Константы и переменные состояния
-    let isButtonOverlayActive = false; // Изменено на isButtonOverlayActive
+    let isButtonOverlayActive = false;
     let scale = 100;
     let touchStartTime;
     let activeTouchId = null;
     let increment = 0;
     const fontSize = 120;
-    const decrementInterval = 3000; // Интервал для уменьшения процента (в мс)
+    const decrementInterval = 3000;
 
-    // Целевой массив символов для сравнения
-    const targetArray = ['t'];
+    const targetArray = ['t', 'h', 'i' ,'n', 'k'];
     let currentIndex = 0;
 
-    // Константы для времени и значений
-    const decrementAmount = 1; // Константа для скорости уменьшения инкремента (в процентах в секунду)
-    const shortTouchDuration = 500; // Длительность короткого нажатия (в мс)
-    const shortVibrationDuration = 30; // Длительность короткой вибрации (в мс)
-    const longVibrationDuration = 30; // Длительность длинной вибрации (в мс)
-    const symbolFontSize = '60px'; // Размер шрифта символов кексика и леденца
-    const maxIncrement = 100; // Максимальное значение инкремента
-    const wideButtonFillGradient = 'linear-gradient(to right, rgba(255, 182, 193, 0) 0%, white 0%, white 100%)'; // Градиент для заполнения wideButton
-    const morseBarDisplayDuration = 3000; // Длительность отображения символа в morseBar (в мс)
-    const characterDisplayDuration = 2500; // Длительность отображения символа в characterDisplay (в мс)
-    const morseInputTimeoutDuration = 2000; // Длительность ожидания ввода в азбуке Морзе (в мс)
-    const fadeOutDuration = 1000; // Длительность исчезновения элемента (в мс)
-    const fadeInClass = 'fade-in'; // Класс для анимации появления элемента
-    const fadeOutClass = 'fade-out'; // Класс для анимации исчезновения элемента
+    const decrementAmount = 1;
+    const shortTouchDuration = 500;
+    const shortVibrationDuration = 30;
+    const longVibrationDuration = 30;
+    const symbolFontSize = '60px';
+    const maxIncrement = 100;
+    const wideButtonFillGradient = 'linear-gradient(to right, rgba(255, 182, 193, 0) 0%, white 0%, white 100%)';
+    const morseBarDisplayDuration = 3000;
+    const characterDisplayDuration = 2500;
+    const morseInputTimeoutDuration = 2000;
+    const fadeOutDuration = 1000;
+    const fadeInClass = 'fade-in';
+    const fadeOutClass = 'fade-out';
 
-    // Символы для использования
-    const poopSymbol = '💩'; // Символ какашки
-    const cupcakeSymbol = '🧁'; // Символ кексика
-    const lollipopSymbol = '🍭'; // Символ леденца
-    const dotSymbol = '.'; // Символ точки в азбуке Морзе
-    const dashSymbol = '-'; // Символ тире в азбуке Морзе
+    const poopSymbol = '💩';
+    const cupcakeSymbol = '🧁';
+    const lollipopSymbol = '🍭';
+    const dotSymbol = '.';
+    const dashSymbol = '-';
 
-    // Алфавит Морзе
     const morseAlphabet = {
         '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',
         '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',
@@ -60,9 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
         '-----': '0'
     };
 
-    updateIncrementDisplay(); // Инициализация при загрузке страницы
+    updateIncrementDisplay();
 
-    // Обработчик клика на кнопку overlay
     buttonOverlay.addEventListener("click", function () {
         isButtonOverlayActive = !isButtonOverlayActive;
 
@@ -77,9 +68,14 @@ document.addEventListener('DOMContentLoaded', function () {
             buttonPanel.classList.remove('button-panel-hidden');
             buttonPanelTop.classList.remove('button-panel-hidden');
         }
+
+        if (isButtonOverlayActive) {
+            handleMorseInput(0); // Обработка азбуки Морзе при активации кнопки
+        } else {
+            checkCharacter(); // Проверка символа при отключении кнопки
+        }
     });
 
-    // Функция заполнения wideButton
     function fillWideButton(percent) {
         fillPercentage = `${percent}%`;
 
@@ -91,19 +87,16 @@ document.addEventListener('DOMContentLoaded', function () {
         incrementDisplay.textContent = `${increment}%`;
     }
 
-    // Функция уменьшения размера изображения при касании
     function decreaseImageSize() {
         scale -= 2;
         image.style.transform = `scale(${scale / 100})`;
     }
 
-    // Функция сброса размера изображения
     function resetImageSize() {
         scale = 100;
         image.style.transform = `scale(${scale / 100})`;
     }
 
-    // Обработчик события touchstart на изображении
     image.addEventListener('touchstart', (event) => {
         if (activeTouchId !== null || event.touches.length > 1) {
             return;
@@ -120,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
     });
 
-    // Обработчик события touchend на изображении
     image.addEventListener('touchend', (event) => {
         if (activeTouchId === null) {
             return;
@@ -168,23 +160,20 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
     });
 
-    // Обработчик события touchcancel на изображении
     image.addEventListener('touchcancel', (event) => {
         resetImageSize();
         activeTouchId = null;
     });
 
-    // Предотвращение контекстного меню при клике правой кнопкой мыши
     image.addEventListener('contextmenu', (event) => {
         event.preventDefault();
     });
 
-    // Функция создания плавающего символа
     function createFloatingSymbol(x, y, symbol, symbolClass) {
         const symbolElement = document.createElement('div');
         symbolElement.textContent = symbol;
         symbolElement.className = symbolClass || 'symbol';
-        symbolElement.style        .left = `${x}px`;
+        symbolElement.style.left = `${x}px`;
         symbolElement.style.top = `${y}px`;
 
         if (symbol === cupcakeSymbol || symbol === lollipopSymbol) {
@@ -209,11 +198,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 2000);
     }
 
-    // Переменные для работы с азбукой Морзе
     let morseInput = '';
     let morseTimeout;
 
-    // Обработка ввода символов азбуки Морзе
     function handleMorseInput(duration) {
         clearTimeout(morseTimeout);
 
@@ -231,13 +218,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }, morseInputTimeoutDuration);
     }
 
-    // Декодирование последовательности Морзе в букву
     function decodeMorse(sequence) {
         return morseAlphabet[sequence] || poopSymbol;
     }
 
-    // Проверка введенного символа с целевым массивом
-    function checkCharacter(letter) {
+    function checkCharacter(letter = '') {
         if (letter.toLowerCase() === targetArray[currentIndex]) {
             const characterDiv = document.createElement('div');
             characterDiv.classList.add('character', fadeInClass);
@@ -247,39 +232,9 @@ document.addEventListener('DOMContentLoaded', function () {
             currentIndex++;
 
             if (currentIndex === targetArray.length) {
-                currentIndex = 0;
-                setTimeout(() => {
-                    characterDisplay.textContent = '';
-                }, characterDisplayDuration);
-            }
-        } else {
-            const existingCharacters = document.querySelectorAll('.character');
-            existingCharacters.forEach(elem => {
-                elem.classList.add(fadeOutClass);
-                setTimeout(() => {
-                    elem.remove();
-                }, fadeOutDuration);
-            });
-            currentIndex = 0;
-        }
-    }
-
-    // Проверка введенного символа с целевым массивом
-    function checkCharacter(letter) {
-        if (letter.toLowerCase() === targetArray[currentIndex]) {
-            const characterDiv = document.createElement('div');
-            characterDiv.classList.add('character', fadeInClass);
-            characterDiv.textContent = letter;
-            buttonOverlay.appendChild(characterDiv);
-
-            currentIndex++;
-
-            if (currentIndex === targetArray.length) {
-                // Все символы массива проверены
                 handleGameEnd();
             }
         } else {
-            // Неверный символ - очистить предыдущие символы
             const existingCharacters = document.querySelectorAll('.character');
             existingCharacters.forEach(elem => {
                 elem.classList.add(fadeOutClass);
@@ -291,16 +246,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Функция завершения игры
     function handleGameEnd() {
-        // Здесь включить анимацию завершения игры для кнопки button-overlay-area
         buttonOverlay.classList.add('game-over-animation');
 
-        // Ждем завершения анимации
         setTimeout(() => {
-            // Удалить все div элементы внутри buttonOverlay
             buttonOverlay.innerHTML = '';
-            // Вернуть состояние кнопки в false
             isButtonOverlayActive = false;
             buttonOverlay.classList.remove('pulsing', 'game-over-animation');
             buttonOverlay.style.opacity = 1;
@@ -309,7 +259,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 2000);
     }
 
-    // Обновление отображения символа в morseBar
     function updateMorseBar(letter) {
         morseBar.textContent = letter;
         morseBar.style.opacity = 1;
@@ -320,7 +269,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }, morseBarDisplayDuration);
     }
 
-    // Уменьшение инкремента каждую секунду
     setInterval(() => {
         if (increment > 0) {
             increment -= decrementAmount;
