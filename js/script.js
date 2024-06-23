@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Элементы DOM
     const buttonOverlay = document.getElementById("button-overlay-area");
     const image = document.querySelector('#game-area img');
     const overlayArea = document.getElementById('overlay-area');
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const buttonPanel = document.querySelector('.button-panel');
     const buttonPanelTop = document.querySelector('.button-panel-top');
 
+    // Флаги и переменные состояния
     let isPulsing = false;
     let scale = 100;
     let touchStartTime;
@@ -16,39 +18,73 @@ document.addEventListener('DOMContentLoaded', function () {
     let increment = 0;
     const fontSize = 120;
 
+    // Целевой массив символов для сравнения
     const targetArray = ['t', 'h', 'i', 'n', 'k'];
     let currentIndex = 0;
 
+    // Константы для времени и значений
+    const shortTouchDuration = 500; // Длительность короткого нажатия (в мс)
+    const shortVibrationDuration = 30; // Длительность короткой вибрации (в мс)
+    const longVibrationDuration = 30; // Длительность длинной вибрации (в мс)
+    const symbolFontSize = '60px'; // Размер шрифта символов кексика и леденца
+    const maxIncrement = 100; // Максимальное значение инкремента
+    const wideButtonFillGradient = 'linear-gradient(to right, rgba(255, 182, 193, 0) 0%, white 0%, white 100%)'; // Градиент для заполнения wideButton
+    const morseBarDisplayDuration = 3000; // Длительность отображения символа в morseBar (в мс)
+    const characterDisplayDuration = 2500; // Длительность отображения символа в characterDisplay (в мс)
+    const morseInputTimeoutDuration = 2000; // Длительность ожидания ввода в азбуке Морзе (в мс)
+    const fadeOutDuration = 1000; // Длительность исчезновения элемента (в мс)
+    const fadeInClass = 'fade-in'; // Класс для анимации появления элемента
+    const fadeOutClass = 'fade-out'; // Класс для анимации исчезновения элемента
+
+    // Символы для использования
+    const poopSymbol = '💩'; // Символ какашки
+    const cupcakeSymbol = '🧁'; // Символ кексика
+    const lollipopSymbol = '🍭'; // Символ леденца
+    const dotSymbol = '.'; // Символ точки в азбуке Морзе
+    const dashSymbol = '-'; // Символ тире в азбуке Морзе
+
+    // Алфавит Морзе
+    const morseAlphabet = {
+        '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',
+        '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',
+        '-.-': 'K', '.-..': 'L', '--': 'M', '-.': 'N', '---': 'O',
+        '.--.': 'P', '--.-': 'Q', '.-.': 'R', '...': 'S', '-': 'T',
+        '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', '-.--': 'Y',
+        '--..': 'Z', '.----': '1', '..---': '2', '...--': '3', '....-': '4',
+        '.....': '5', '-....': '6', '--...': '7', '---..': '8', '----.': '9',
+        '-----': '0'
+    };
+
+    // Обработчик клика на кнопку overlay
     buttonOverlay.addEventListener("click", function () {
         isPulsing = !isPulsing;
 
         if (isPulsing) {
             buttonOverlay.classList.add("pulsing");
             buttonOverlay.style.opacity = 0.9;
-
-            // Скрыть панели
             buttonPanel.classList.add('button-panel-hidden');
             buttonPanelTop.classList.add('button-panel-hidden');
         } else {
             buttonOverlay.classList.remove("pulsing");
             buttonOverlay.style.opacity = 1;
-
-            // Показать панели
             buttonPanel.classList.remove('button-panel-hidden');
             buttonPanelTop.classList.remove('button-panel-hidden');
         }
     });
 
+    // Функция уменьшения размера изображения при касании
     function decreaseImageSize() {
         scale -= 2;
         image.style.transform = `scale(${scale / 100})`;
     }
 
+    // Функция сброса размера изображения
     function resetImageSize() {
         scale = 100;
         image.style.transform = `scale(${scale / 100})`;
     }
 
+    // Обработчик события touchstart на изображении
     image.addEventListener('touchstart', (event) => {
         if (activeTouchId !== null || event.touches.length > 1) {
             return;
@@ -58,14 +94,14 @@ document.addEventListener('DOMContentLoaded', function () {
         touchStartTime = new Date().getTime();
         decreaseImageSize();
 
-        // Добавляем вибрацию при нажатии
         if (navigator.vibrate) {
-            navigator.vibrate(30); // Вибрация на 30 мс
+            navigator.vibrate(shortVibrationDuration);
         }
 
         event.preventDefault();
     });
 
+    // Обработчик события touchend на изображении
     image.addEventListener('touchend', (event) => {
         if (activeTouchId === null) {
             return;
@@ -84,18 +120,18 @@ document.addEventListener('DOMContentLoaded', function () {
         let symbol, symbolClass;
 
         if (isPulsing) {
-            symbol = touchDuration >= 500 ? '-' : '.';
+            symbol = touchDuration >= shortTouchDuration ? dashSymbol : dotSymbol;
             symbolClass = 'symbol';
         } else {
-            symbol = touchDuration >= 500 ? '🧁' : '🍭';
+            symbol = touchDuration >= shortTouchDuration ? cupcakeSymbol : lollipopSymbol;
             symbolClass = 'symbol-eat';
         }
 
         createFloatingSymbol(touchPositionX, touchPositionY, symbol, symbolClass);
 
         if (!isPulsing) {
-            increment += touchDuration >= 500 ? 4 : 1;
-            increment = Math.min(increment, 100);
+            increment += touchDuration >= shortTouchDuration ? 4 : 1;
+            increment = Math.min(increment, maxIncrement);
 
             updateIncrementDisplay();
             fillWideButton(increment);
@@ -106,23 +142,25 @@ document.addEventListener('DOMContentLoaded', function () {
         resetImageSize();
         activeTouchId = null;
 
-        // Добавляем вибрацию при отпускании
         if (navigator.vibrate) {
-            navigator.vibrate(30); // Вибрация на 30 мс
+            navigator.vibrate(longVibrationDuration);
         }
 
         event.preventDefault();
     });
 
+    // Обработчик события touchcancel на изображении
     image.addEventListener('touchcancel', (event) => {
         resetImageSize();
         activeTouchId = null;
     });
 
+    // Предотвращение контекстного меню при клике правой кнопкой мыши
     image.addEventListener('contextmenu', (event) => {
         event.preventDefault();
     });
 
+    // Функция создания плавающего символа
     function createFloatingSymbol(x, y, symbol, symbolClass) {
         const symbolElement = document.createElement('div');
         symbolElement.textContent = symbol;
@@ -130,8 +168,8 @@ document.addEventListener('DOMContentLoaded', function () {
         symbolElement.style.left = `${x}px`;
         symbolElement.style.top = `${y}px`;
 
-        if (symbol === '🧁' || symbol === '🍭') {
-            symbolElement.style.fontSize = '60px';
+        if (symbol === cupcakeSymbol || symbol === lollipopSymbol) {
+            symbolElement.style.fontSize = symbolFontSize;
         } else {
             symbolElement.style.fontSize = `${fontSize}px`;
         }
@@ -140,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.appendChild(symbolElement);
 
         const overlayTop = overlayArea.getBoundingClientRect().top;
-        const translateY = y - overlayTop + (symbol === '🧁' || '🍭' ? 30 / 2 : fontSize / 2);
+        const translateY = y - overlayTop + (symbol === cupcakeSymbol || symbol === lollipopSymbol ? parseInt(symbolFontSize) / 2 : fontSize / 2);
 
         requestAnimationFrame(() => {
             symbolElement.style.transform = `translateY(-${translateY}px)`;
@@ -152,62 +190,51 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 2000);
     }
 
+    // Функция заполнения wideButton
     function fillWideButton(percent) {
         wideButton.style.setProperty('--fill-width', `${percent}%`);
-        wideButton.style.background = `
-            linear-gradient(to right,
-                rgba(255, 182, 193, 0) ${percent}%,
-                white ${percent}%,
-                white 100%
-            )`;
+        wideButton.style.background = wideButtonFillGradient.replace(/0%/g, `${percent}%`);
     }
 
+    // Функция обновления отображения инкремента
     function updateIncrementDisplay() {
         incrementDisplay.textContent = `${increment}%`;
     }
 
+    // Переменные для работы с азбукой Морзе
     let morseInput = '';
     let morseTimeout;
 
+    // Обработка ввода символов азбуки Морзе
     function handleMorseInput(duration) {
         clearTimeout(morseTimeout);
 
-        morseInput += duration >= 500 ? '-' : '.';
+        morseInput += duration >= shortTouchDuration ? dashSymbol : dotSymbol;
 
         morseTimeout = setTimeout(() => {
             const letter = decodeMorse(morseInput);
             updateMorseBar(letter);
 
-            // Задержка перед созданием characterDiv
             setTimeout(() => {
                 checkCharacter(letter);
-            }, 2500); // 3 секунды задержка
+            }, characterDisplayDuration);
 
             morseInput = '';
-        }, 2000);
+        }, morseInputTimeoutDuration);
     }
 
+    // Декодирование последовательности Морзе в букву
     function decodeMorse(sequence) {
-        const morseAlphabet = {
-            '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',
-            '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',
-            '-.-': 'K', '.-..': 'L', '--': 'M', '-.': 'N', '---': 'O',
-            '.--.': 'P', '--.-': 'Q', '.-.': 'R', '...': 'S', '-': 'T',
-            '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', '-.--': 'Y',
-            '--..': 'Z', '.----': '1', '..---': '2', '...--': '3', '....-': '4',
-            '.....': '5', '-....': '6', '--...': '7', '---..': '8', '----.': '9',
-            '-----': '0'
-        };
-
-        return morseAlphabet[sequence] || '💩';
+        return morseAlphabet[sequence] || poopSymbol;
     }
 
+    // Проверка введенного символа с целевым массивом
     function checkCharacter(letter) {
         if (letter.toLowerCase() === targetArray[currentIndex]) {
             const characterDiv = document.createElement('div');
-            characterDiv.classList.add('character', 'fade-in'); // Добавляем класс character для анимации
+            characterDiv.classList.add('character', fadeInClass);
             characterDiv.textContent = letter;
-            buttonOverlay.appendChild(characterDiv); // Добавляем в buttonOverlay
+            buttonOverlay.appendChild(characterDiv);
 
             currentIndex++;
 
@@ -215,21 +242,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 currentIndex = 0;
                 setTimeout(() => {
                     characterDisplay.textContent = '';
-                }, 2000);
+                }, characterDisplayDuration);
             }
         } else {
-            // Если пользователь ошибся, удаляем все созданные символы и сбрасываем индекс
             const existingCharacters = document.querySelectorAll('.character');
             existingCharacters.forEach(elem => {
-                elem.classList.add('fade-out');
+                elem.classList.add(fadeOutClass);
                 setTimeout(() => {
                     elem.remove();
-                }, 1000);
+                }, fadeOutDuration);
             });
             currentIndex = 0;
         }
     }
 
+    // Обновление отображения символа в morseBar
     function updateMorseBar(letter) {
         morseBar.textContent = letter;
         morseBar.style.opacity = 1;
@@ -237,7 +264,6 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             morseBar.textContent = '';
             morseBar.style.opacity = 0;
-        }, 3000);
+        }, morseBarDisplayDuration);
     }
-
 });
