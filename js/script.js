@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const decrementInterval = 3000; // Интервал для уменьшения процента (в мс)
 
     // Целевой массив символов для сравнения
-    const targetArray = ['t', 'h', 'i', 'n', 'k'];
+    const targetArray = ['t'];
     let currentIndex = 0;
 
     // Константы для времени и значений
@@ -262,6 +262,52 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             currentIndex = 0;
         }
+    }
+
+    // Проверка введенного символа с целевым массивом
+    function checkCharacter(letter) {
+        if (letter.toLowerCase() === targetArray[currentIndex]) {
+            const characterDiv = document.createElement('div');
+            characterDiv.classList.add('character', fadeInClass);
+            characterDiv.textContent = letter;
+            buttonOverlay.appendChild(characterDiv);
+
+            currentIndex++;
+
+            if (currentIndex === targetArray.length) {
+                // Все символы массива проверены
+                handleGameEnd();
+            }
+        } else {
+            // Неверный символ - очистить предыдущие символы
+            const existingCharacters = document.querySelectorAll('.character');
+            existingCharacters.forEach(elem => {
+                elem.classList.add(fadeOutClass);
+                setTimeout(() => {
+                    elem.remove();
+                }, fadeOutDuration);
+            });
+            currentIndex = 0;
+        }
+    }
+
+    // Функция завершения игры
+    function handleGameEnd() {
+        // Здесь включить анимацию завершения игры для кнопки button-overlay-area
+        buttonOverlay.classList.add('game-over-animation');
+
+        // Ждем завершения анимации
+        setTimeout(() => {
+            // Удалить все div элементы внутри buttonOverlay
+            buttonOverlay.innerHTML = '';
+
+            // Вернуть состояние кнопки в false
+            isButtonOverlayActive = false;
+            buttonOverlay.classList.remove('pulsing', 'game-over-animation');
+            buttonOverlay.style.opacity = 1;
+            buttonPanel.classList.remove('button-panel-hidden');
+            buttonPanelTop.classList.remove('button-panel-hidden');
+        }, 2000);
     }
 
     // Обновление отображения символа в morseBar
