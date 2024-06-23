@@ -58,6 +58,8 @@ document.addEventListener('DOMContentLoaded', function () {
         '-----': '0'
     };
 
+    updateIncrementDisplay(); // Инициализация при загрузке страницы
+    
     // Обработчик клика на кнопку overlay
     buttonOverlay.addEventListener("click", function () {
         isPulsing = !isPulsing;
@@ -81,6 +83,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         wideButton.style.setProperty('--fill-width', fillPercentage);
         wideButton.style.background = wideButtonFillGradient.replace(/0%/g, fillPercentage);
+    }
+
+    function updateIncrementDisplay() {
+        incrementDisplay.textContent = `${increment}%`;
     }
 
     // Функция уменьшения размера изображения при касании
