@@ -329,10 +329,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const countdownDiv = document.createElement('div');
             countdownDiv.classList.add('character');
             countdownDiv.style.opacity = '1'; // Устанавливаем полную непрозрачность
-            countdownDiv.style.width = '175px';
 
             // Время для обратного отсчета в секундах
-            let timeLeft = 30; // 3 минуты = 180 секунд
+            let timeLeft = 30; // 30 секунд
 
             const countdownInterval = setInterval(() => {
                 const hours = Math.floor(timeLeft / 3600);
@@ -347,13 +346,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     clearInterval(countdownInterval);
                     countdownDiv.remove();
                     countdownActive = false;
+
+                    // Включаем кнопку после завершения таймера
+                    buttonOverlay.disabled = false;
                 }
             }, 1000);
 
             buttonOverlay.appendChild(countdownDiv);
-            buttonOverlay.disabled = true; // Делаем кнопку неактивной
-        }, 5000); // Задержка в 5000 миллисекунд = 5 секунд
+            buttonOverlay.disabled = true; // Делаем кнопку неактивной во время таймера
+        }, 5000); // Задержка в 5 секунд перед стартом таймера
     }
+
 
     // Обновление отображения символа в morseBar
     function updateMorseBar(letter) {
