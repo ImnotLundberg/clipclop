@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const decrementAmount = 1;
     const shortTouchDuration = 500;
-    const shortVibrationDuration = 30;
+    const shortVibrationDuration = 10;
     const longVibrationDuration = 30;
     const symbolFontSize = '60px';
     const maxIncrement = 100;
@@ -152,10 +152,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         resetImageSize();
         activeTouchId = null;
-
-        if (navigator.vibrate) {
-            navigator.vibrate(longVibrationDuration);
-        }
 
         event.preventDefault();
     });
