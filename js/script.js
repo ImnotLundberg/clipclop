@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     // DOM Elements
-    const buttonOverlay = document.getElementById("button-overlay-area");
+    const buttonGameBar = document.getElementById("button-game-bar");
     const image = document.querySelector('#game-area img');
-    const overlayArea = document.getElementById('overlay-area');
+    const gameBar = document.getElementById('game-bar');
     const wideButton = document.querySelector('.wide-button');
     const incrementDisplay = document.getElementById('increment-display');
     const morseBar = document.getElementById('morse-bar');
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Variables
     let fillPercentage;
-    let isButtonOverlayActive = false;
+    let isButtonGameBurActive = false;
     let countdownActive = false;
     let scale = 100;
     let touchStartTime;
@@ -67,20 +67,20 @@ document.addEventListener('DOMContentLoaded', function () {
     updateIncrementDisplay();
 
     // Button overlay click handler
-    buttonOverlay.addEventListener("click", function () {
+    buttonGameBar.addEventListener("click", function () {
         if (!countdownActive) {
-            isButtonOverlayActive = !isButtonOverlayActive;
+            isButtonGameBurActive = !isButtonGameBurActive;
 
-            if (isButtonOverlayActive) {
-                buttonOverlay.classList.add("pulsing");
-                buttonOverlay.style.opacity = 0.9;
+            if (isButtonGameBurActive) {
+                buttonGameBar.classList.add("pulsing");
+                buttonGameBar.style.opacity = 0.9;
                 buttonPanel.classList.add('button-panel-hidden');
                 buttonPanelTop.classList.add('button-panel-hidden');
                 helpPanel.classList.add('help-panel-visible');
                 helpPanel.classList.remove('help-panel-hidden');
             } else {
-                buttonOverlay.classList.remove("pulsing");
-                buttonOverlay.style.opacity = 1;
+                buttonGameBar.classList.remove("pulsing");
+                buttonGameBar.style.opacity = 1;
                 buttonPanel.classList.remove('button-panel-hidden');
                 buttonPanelTop.classList.remove('button-panel-hidden');
                 helpPanel.classList.remove('help-panel-visible');
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Update morseBar visibility based on overlay state
     function updateMorseBarVisibility() {
-        if (isButtonOverlayActive) {
+        if (isButtonGameBurActive) {
             morseBar.style.opacity = '1';
         } else {
             morseBar.style.opacity = '0';
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let symbol, symbolClass;
 
-        if (isButtonOverlayActive) {
+        if (isButtonGameBurActive) {
             symbol = touchDuration >= shortTouchDuration ? dashSymbol : dotSymbol;
             symbolClass = 'symbol';
         } else {
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         createFloatingSymbol(touchPositionX, touchPositionY, symbol, symbolClass);
 
-        if (!isButtonOverlayActive) {
+        if (!isButtonGameBurActive) {
             increment += touchDuration >= shortTouchDuration ? 4 : 1;
             increment = Math.min(increment, maxIncrement);
 
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
         symbolElement.style.pointerEvents = 'none';
         document.body.appendChild(symbolElement);
 
-        const overlayTop = overlayArea.getBoundingClientRect().top;
+        const overlayTop = gameBar.getBoundingClientRect().top;
         const translateY = y - overlayTop + (symbol === cupcakeSymbol || symbol === lollipopSymbol ? parseInt(symbolFontSize) / 2 : fontSize / 2);
 
         requestAnimationFrame(() => {
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const characterDiv = document.createElement('div');
             characterDiv.classList.add('character', fadeInClass);
             characterDiv.textContent = letter;
-            buttonOverlay.appendChild(characterDiv);
+            buttonGameBar.appendChild(characterDiv);
 
             currentIndex++;
 
@@ -283,14 +283,14 @@ document.addEventListener('DOMContentLoaded', function () {
         countdownActive = false;
 
         setTimeout(() => {
-            buttonOverlay.classList.add('game-over-animation');
+            buttonGameBar.classList.add('game-over-animation');
 
             setTimeout(() => {
-                const characterDivs = buttonOverlay.querySelectorAll('.character');
+                const characterDivs = buttonGameBar.querySelectorAll('.character');
                 characterDivs.forEach(div => div.remove());
-                isButtonOverlayActive = false;
-                buttonOverlay.classList.remove('pulsing', 'game-over-animation');
-                buttonOverlay.style.opacity = 1;
+                isButtonGameBurActive = false;
+                buttonGameBar.classList.remove('pulsing', 'game-over-animation');
+                buttonGameBar.style.opacity = 1;
                 buttonPanel.classList.remove('button-panel-hidden');
                 buttonPanelTop.classList.remove('button-panel-hidden');
                 currentIndex = 0;
@@ -322,13 +322,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     clearInterval(countdownInterval);
                     countdownDiv.remove();
                     countdownActive = false;
-                    buttonOverlay.disabled = false;
+                    buttonGameBar.disabled = false;
                     checkCharacter();
                 }
             }, 100);
 
-            buttonOverlay.appendChild(countdownDiv);
-            buttonOverlay.disabled = true;
+            buttonGameBar.appendChild(countdownDiv);
+            buttonGameBar.disabled = true;
         }, 100);
     }
 
