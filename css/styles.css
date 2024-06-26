@@ -269,10 +269,7 @@ body {
     align-items: center;
 }
 
-.button-panel-top .three-button-panel {
-    gap:15px;
-    display: flex;
-    justify-content: space-around;
+.three-button-panel {
 }
 
 /* Панель кнопок вверху экрана */
@@ -291,15 +288,13 @@ body {
 }
 
 /* Стили для кнопок и элементов в панели вверху */
-.button-panel-top .button {
+.three-button-panel .button {
     width: 80px;
     height: 50px;
     border-radius: 15px;
 }
 
-.button-panel-top .profile {
-    width: 80px;
-    height: 80px;
+.profile {
     border-radius: 15px;
 }
 
