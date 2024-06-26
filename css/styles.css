@@ -244,21 +244,11 @@ body {
     height: 80px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 1.0);
-    border: none;
     margin: 0 0px;
     transition: background-color 0.15s ease;
     outline: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.bottom-panel-button {
-    background: radial-gradient(circle, rgba(250, 218, 221, 1) 0%, rgba(230,230,250, 1) 100%);
     border: 0.5px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.bottom-panel-button:hover{
-    background: radial-gradient(circle, rgba(250, 218, 221, 1) 50%, rgba(230,230,250, 1) 100%);
 }
 
 /* Эффект нажатия на кнопку */
@@ -285,11 +275,15 @@ body {
 .three-button-panel .button {
     width: 80px;
     height: 50px;
-    border-radius: 15px;
 }
 
 .profile {
-    border-radius: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.button-top {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 10px 10px 3px 3px;
 }
 
 .button-panel-top .wide-button {
@@ -298,7 +292,8 @@ body {
     height: 20px;
     border: none;
     overflow: hidden;
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2);
+    border-radius: 3px 3px 10px 10px;
 }
 
 .help-panel {
@@ -352,9 +347,10 @@ body {
     width: 100%;
     height: 20px;
     margin: 10px 0 0 0;
-    border-radius: 10px;
+    border-radius: 3px 3px 10px 10px;
     border: none;
     background: linear-gradient(to right, rgba(255, 255, 102, 0.9), rgba(102, 255, 102, 0.9), rgba(102, 255, 255, 0.9), rgba(102, 102, 255, 0.9));
+    box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.4);
     animation: rainbow 15s ease infinite;
     background-size: 400% 20px;
 }
