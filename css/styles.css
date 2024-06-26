@@ -226,7 +226,7 @@ body {
 /* Панель кнопок внизу экрана */
 .button-panel {
     position: fixed;
-    bottom: 1px;
+    bottom: 1px;5
     background-color: rgba(154, 205, 50, 0.35);
     border-radius: 10px 10px 0 0;
     padding: 15px 10px 10px 10px;
@@ -272,9 +272,8 @@ body {
 }
 
 /* Стили для кнопок и элементов в панели вверху */
-.three-button-panel .button {
-    width: 90px;
-    height: 55px;
+.three-button-panel {
+    width: 100%;
 }
 
 .profile-button {
@@ -284,6 +283,7 @@ body {
 .button-top {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   border-radius: 10px 10px 3px 3px;
+  height: 55px;
 }
 
 .button-panel-top .wide-button {
