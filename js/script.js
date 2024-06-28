@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     // DOM Elements
+    const overlayArea = document.getElementById('overlay-area');
     const buttonGameBar = document.getElementById("button-game-bar");
     const image = document.querySelector('#game-area img');
     const gameBar = document.getElementById('game-bar');
@@ -325,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     buttonGameBar.disabled = false;
                     checkCharacter();
                 }
-            }, 100);
+            }, 1000);
 
             buttonGameBar.appendChild(countdownDiv);
             buttonGameBar.disabled = true;
@@ -351,5 +352,6 @@ document.addEventListener('DOMContentLoaded', function () {
             fillWideButton(increment);
         }
     }, decrementInterval);
+
 
 });

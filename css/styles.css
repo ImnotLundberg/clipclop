@@ -71,6 +71,21 @@ body {
     }
 }
 
+#overlay-area {
+    position:fixed;
+    max-width: 400px;
+    width: 90%;
+    top:15px;
+    bottom: 110px;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 101;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: none;
+
+}
+
 /* Стили для оверлейной кнопки */
 .button-game-bar {
     width: 100%;
@@ -226,7 +241,7 @@ body {
 /* Панель кнопок внизу экрана */
 .button-panel {
     position: fixed;
-    bottom: 1px;5
+    bottom: 1px;
     background-color: rgba(154, 205, 50, 0.35);
     border-radius: 10px 10px 0 0;
     padding: 15px 10px 10px 10px;
@@ -301,6 +316,7 @@ body {
   position: fixed;
   bottom: 1px;
   padding: 15px 10px 10px 10px;
+  background: rgba(255,255,255, 0.3);
   display: flex;
   justify-content: space-around;
   width: 95%;
@@ -315,11 +331,10 @@ body {
     height: 80px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 1.0);
-    border: none;
-    margin: 0 0px;
-    transition: background-color 0.15s ease;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
+}
+
+.cheatsheet-button.active {
+    background-color: rgba(255, 255, 255, 0);
 }
 
 .cheatsheet-button img{
