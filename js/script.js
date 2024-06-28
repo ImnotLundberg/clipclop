@@ -294,6 +294,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 buttonGameBar.style.opacity = 1;
                 buttonPanel.classList.remove('button-panel-hidden');
                 buttonPanelTop.classList.remove('button-panel-hidden');
+                helpPanel.classList.remove('help-panel-visible'); // hide help panel
+                helpPanel.classList.add('help-panel-hidden');     // add hidden class
                 currentIndex = 0;
                 startCountdown();
             }, 2000);
