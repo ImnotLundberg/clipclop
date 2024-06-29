@@ -1,14 +1,18 @@
 <style>
   .bordered-table {
-    border-collapse: collapse;
+    border-collapse: separate;
     width: 100%;
   }
   .bordered-table td, .bordered-table th {
-    border: 1px solid white; /* Белая граница у ячеек и заголовков */
     padding: 5px;
+    background:rgba(255, 127, 80, 0.55);
+    border-radius: 50px;
     text-align: center;
-    border:none;
-    /* box-shadow: 0 0 5px 2px white, inset 0 0 5px 2px white; */ /* Внешняя и внутренняя тень */
+    box-shadow:inset 0 0 1px 1px rgba(255,255,255, 0.5);
+  }
+
+  .body-content {
+    font-size: 22px;
   }
 </style>
 
