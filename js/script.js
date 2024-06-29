@@ -13,7 +13,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const buttonPanel = document.querySelector('.button-panel');
     const buttonPanelTop = document.querySelector('.button-panel-top');
     const helpPanel = document.querySelector('.help-panel');
+    const cheatSheetButtons = document.querySelectorAll('.cheatsheet-button');
+    const overlayContent = document.getElementById('overlay-content');
 
+    let activeButton = null;
     // Variables
     let fillPercentage;
     let isButtonGameBurActive = false;
@@ -354,6 +357,43 @@ document.addEventListener('DOMContentLoaded', function () {
             fillWideButton(increment);
         }
     }, decrementInterval);
+
+    cheatSheetButtons.forEach(button => {
+      button.addEventListener('click', async () => {
+        if (button === activeButton) {
+          // Скрыть overlay и убрать активное состояние с кнопки
+          overlayArea.style.display = 'none';
+          button.classList.remove('active');
+          activeButton = null;
+        } else {
+          // Сброс активного состояния с другой кнопки, если есть
+          if (activeButton) {
+            activeButton.classList.remove('active');
+          }
+          // Установить текущее активное состояние на нажатую кнопку
+          activeButton = button;
+          button.classList.add('active');
+
+          // Загрузка содержимого из файла
+          const contentUrl = button.getAttribute('data-content');
+          try {
+            const response = await fetch(contentUrl);
+            if (response.ok) {
+              const content = await response.text();
+              overlayContent.innerHTML = content;
+              overlayArea.style.display = 'block';
+            } else {
+              overlayContent.innerHTML = 'Ошибка загрузки содержимого.';
+              overlayArea.style.display = 'block';
+            }
+          } catch (error) {
+            overlayContent.innerHTML = 'Ошибка загрузки содержимого.';
+            overlayArea.style.display = 'block';
+          }
+        }
+      });
+    });
+
 
 
 });
