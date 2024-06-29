@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const poopSymbol = '💩';
     const cupcakeSymbol = '🧁';
     const lollipopSymbol = '🍭';
-    const dotSymbol = '.';
+    const dotSymbol = '·';
     const dashSymbol = '-';
 
     // Morse Alphabet
