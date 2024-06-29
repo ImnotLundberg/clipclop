@@ -16,8 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const cheatSheetButtons = document.querySelectorAll('.cheatsheet-button');
     const overlayContent = document.getElementById('overlay-content');
 
-    let activeButton = null;
     // Variables
+    let activeButton = null;
+    let gameEndCount = 0;
     let fillPercentage;
     let isButtonGameBurActive = false;
     let countdownActive = false;
@@ -284,8 +285,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Handle game end
+
     function handleGameEnd() {
+        gameEndCount++; // Increment the counter
+
         countdownActive = false;
+
+        const gameEndCountButton = document.getElementById('gameEndCountButton');
+
+        gameEndCountButton.textContent = `${gameEndCount}`;
 
         setTimeout(() => {
             buttonGameBar.classList.add('game-over-animation');
@@ -305,6 +313,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 2000);
         }, 2500);
     }
+
 
     // Start countdown timer
     function startCountdown() {
