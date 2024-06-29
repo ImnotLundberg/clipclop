@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const buttonPanel = document.querySelector('.button-panel');
     const buttonPanelTop = document.querySelector('.button-panel-top');
     const helpPanel = document.querySelector('.help-panel');
-    const cheatSheetButtons = document.querySelectorAll('.cheatsheet-button');
+    const buttons = document.querySelectorAll('.button');
     const overlayContent = document.getElementById('overlay-content');
 
     // Variables
@@ -368,7 +368,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }, decrementInterval);
 
-    cheatSheetButtons.forEach(button => {
+    buttons.forEach(button => {
       button.addEventListener('click', async () => {
         if (button === activeButton) {
           // Скрыть overlay и убрать активное состояние с кнопки
