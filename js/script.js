@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let increment = 0;
     let timeLeft = 30;
     const fontSize = 120;
-    const decrementInterval = 3000;
+    const decrementInterval = 1000;
 
     // Target array of characters
     const targetArray = ['t', 'h', 'i', 'n', 'k'];
@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const longVibrationDuration = 30;
     const symbolFontSize = '60px';
     const maxIncrement = 100;
-    const wideButtonFillGradientTemplate = (color) => `linear-gradient(to right, ${color} 0%, white 0%, white 100%)`;
     const morseBarDisplayDuration = 3000;
     const characterDisplayDuration = 2500;
     const morseInputTimeoutDuration = 2000;
@@ -105,35 +104,39 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function fillWideButton(percent) {
-        fillPercentage = `${percent}%`;
+        let wideButton = document.querySelector('.wide-button');
+        let fillColor;
 
-        let red, green, blue, alpha = 0.6;
-
-        if (percent <= 33) {
-            // От красного к оранжевому
-            const ratio = percent / 33;
+        let red, green, blue;
+        if (percent < 25) {
+            // Если процент меньше 25, используем градиент от первого к второму цвету
             red = 255;
-            green = Math.floor(153 * ratio);
-            blue = Math.floor(153 * (1 - ratio));
-        } else if (percent <= 66) {
-            // От оранжевого к желтому
-            const ratio = (percent - 33) / 33;
+            green = Math.round(127 + (percent / 25) * (178 - 127));
+            blue = Math.round(80 + (percent / 25) * (102 - 80));
+        } else if (percent < 50) {
+            // Если процент от 25 до 50, используем градиент от второго к третьему цвету
             red = 255;
-            green = 153 + Math.floor(102 * ratio);
-            blue = 0;
-        } else {
-            // От желтого к зеленому
-            const ratio = (percent - 66) / 34;
-            red = Math.floor(255 * (1 - ratio));
+            green = Math.round(178 + ((percent - 25) / 25) * (255 - 178));
+            blue = Math.round(102);
+        } else if (percent < 75) {
+            // Если процент от 50 до 75, используем градиент от третьего к четвертому цвету
+            red = Math.round(255 - ((percent - 50) / 25) * (255 - 102));
             green = 255;
-            blue = 0;
+            blue = Math.round(102);
+        } else {
+            // Если процент от 75 до 100, используем градиент от четвертого цвета к белому
+            red = Math.round(102);
+            green = Math.round(255);
+            blue = Math.round(102);
         }
 
-        const color = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+        fillColor = `rgba(${red}, ${green}, ${blue}, 0.9)`; // Формируем цвет в формате RGBA
 
-        wideButton.style.setProperty('--fill-width', fillPercentage);
-        wideButton.style.background = wideButtonFillGradientTemplate(color).replace(/0%/g, fillPercentage);
+        // Устанавливаем стиль фона с использованием линейного градиента
+        wideButton.style.background = `linear-gradient(to right, ${fillColor} ${percent}%, white ${percent}%)`;
     }
+
+
 
     // Update increment display
     function updateIncrementDisplay() {
