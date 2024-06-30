@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function fillWideButton(percent) {
-        let wideButton = document.querySelector('.wide-button');
+
         let fillColor;
 
         let red, green, blue;
