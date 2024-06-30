@@ -291,10 +291,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         countdownActive = false;
 
-        const gameEndCountButton = document.getElementById('gameEndCountButton');
-
-        gameEndCountButton.textContent = `${gameEndCount}`;
-
         setTimeout(() => {
             buttonGameBar.classList.add('game-over-animation');
 
