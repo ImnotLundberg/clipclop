@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const longVibrationDuration = 30;
     const symbolFontSize = '60px';
     const maxIncrement = 100;
-    const wideButtonFillGradient = 'linear-gradient(to right, rgba(255, 182, 193, 0) 0%, white 0%, white 100%)';
+    const wideButtonFillGradientTemplate = (color) => `linear-gradient(to right, ${color} 0%, white 0%, white 100%)`;
     const morseBarDisplayDuration = 3000;
     const characterDisplayDuration = 2500;
     const morseInputTimeoutDuration = 2000;
@@ -104,12 +104,35 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Function to fill wideButton
     function fillWideButton(percent) {
         fillPercentage = `${percent}%`;
 
+        let red, green, blue, alpha = 0.6;
+
+        if (percent <= 33) {
+            // От красного к оранжевому
+            const ratio = percent / 33;
+            red = 255;
+            green = Math.floor(153 * ratio);
+            blue = Math.floor(153 * (1 - ratio));
+        } else if (percent <= 66) {
+            // От оранжевого к желтому
+            const ratio = (percent - 33) / 33;
+            red = 255;
+            green = 153 + Math.floor(102 * ratio);
+            blue = 0;
+        } else {
+            // От желтого к зеленому
+            const ratio = (percent - 66) / 34;
+            red = Math.floor(255 * (1 - ratio));
+            green = 255;
+            blue = 0;
+        }
+
+        const color = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+
         wideButton.style.setProperty('--fill-width', fillPercentage);
-        wideButton.style.background = wideButtonFillGradient.replace(/0%/g, fillPercentage);
+        wideButton.style.background = wideButtonFillGradientTemplate(color).replace(/0%/g, fillPercentage);
     }
 
     // Update increment display
