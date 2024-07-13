@@ -8,12 +8,12 @@
 </head>
 <body>
     <div class="button-panel-top">
-        <button class="button profile-button"></button> <!-- Профиль -->
+        <button class="button profile-button" data-title="Профиль"></button> <!-- Профиль -->
         <div>
             <div class="three-button-panel">
-                <button class="button button-top">🏆</button> <!-- Рейтинг игроков -->
-                <button class="button button-top">👬</button> <!-- Друзья -->
-                <button class="button button-top">💰</button> <!-- Кошелек -->
+                <button class="button button-top" data-title="Рейтинг игроков">🏆</button> <!-- Рейтинг игроков -->
+                <button class="button button-top" data-title="Друзья">👬</button> <!-- Друзья -->
+                <button class="button button-top" data-title="Кошелек">💰</button> <!-- Кошелек -->
             </div>
             <button class="button wide-button">
                 <span id="increment-display"></span>
@@ -23,26 +23,27 @@
     <div class="container">
         <div id="morse-bar" class="morse-bar"></div>
         <div id="game-bar">
-            <button id="button-game-bar" class="button-game-bar">
-            </button>
+            <button id="button-game-bar" class="button-game-bar"></button>
         </div>
         <div id="game-area">
             <img src="img/pony/th(2).jpg" alt="Игра с касаниями">
         </div>
     </div>
-    <div id="overlay-area">
-        <div id="overlay-content" class="overlay-content"></div>
+    <div id="overlay-area" class="overlay-area">
+        <div id="overlay-content" class="overlay-content">
+            <h2 id="overlay-title"></h2>
+        </div>
     </div>
     <div class="help-panel">
-        <button class="button cheatsheet-button" data-content="html/help/morse_alphabet.html">
+        <button class="button cheatsheet-button" data-title="Morse Alphabet" data-content="html/help/morse_alphabet.html">
             <img src="img/pony/cheatsheet.png" alt="Подсказка">
         </button>
     </div>
     <div class="button-panel">
-        <button class="button"><img src="img/pony/inventory.png"></button> <!-- Инвентарь -->
-        <button class="button">🛒</button> <!-- Магазин -->
-        <button class="button">📅</button> <!-- Ежедневные Задания -->
-        <button class="button">🏅</button> <!-- Соревнование -->
+        <button class="button" data-title="Инвентарь"><img src="img/pony/inventory.png"></button> <!-- Инвентарь -->
+        <button class="button" data-title="Магазин">🛒</button> <!-- Магазин -->
+        <button class="button" data-title="Ежедневные Задания">📅</button> <!-- Ежедневные Задания -->
+        <button class="button" data-title="Соревнование">🏅</button> <!-- Соревнование -->
     </div>
     <script src="js/script.js"></script>
 </body>

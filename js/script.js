@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const helpPanel = document.querySelector('.help-panel');
     const buttons = document.querySelectorAll('.button');
     const overlayContent = document.getElementById('overlay-content');
+    const overlayTitle = document.getElementById('overlay-title');
 
     // Variables
     let activeButton = null;
@@ -388,22 +389,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.classList.add('active');
 
                 const contentUrl = button.getAttribute('data-content');
+                const title = button.getAttribute('data-title');
+
                 try {
                     const response = await fetch(contentUrl);
                     if (response.ok) {
                         const content = await response.text();
-                        overlayContent.innerHTML = content;
+                        overlayContent.innerHTML = `<h2 class="overlay-title">${title}</h2>` + content;
                         overlayArea.style.display = 'block';
                     } else {
-                        overlayContent.innerHTML = 'Ошибка загрузки содержимого.';
+                        overlayContent.innerHTML = `<h2 class="overlay-title">${title}</h2>Ошибка загрузки содержимого.`;
                         overlayArea.style.display = 'block';
                     }
                 } catch (error) {
-                    overlayContent.innerHTML = 'Ошибка загрузки содержимого.';
+                    overlayContent.innerHTML = `<h2 class="overlay-title">${title}</h2>Ошибка загрузки содержимого.`;
                     overlayArea.style.display = 'block';
                 }
             }
         });
     });
-
 });

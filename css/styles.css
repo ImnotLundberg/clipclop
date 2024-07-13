@@ -80,11 +80,20 @@ body {
     background: rgba(255, 255, 255, 0.85);
     z-index: 101;
     border-radius: 5px;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     display: none;
 
 }
+
+.overlay-title {
+    font-size: 24px; /* Размер шрифта */
+    color: #ff6347; /* Цвет текста */
+    text-align: center; /* Выравнивание по центру */
+    margin-bottom: 10px; /* Отступ снизу */
+    font-weight: bold; /* Жирный текст */
+}
+
 
 .overlay-content {
     background: rgba(0, 0, 0, 0);
