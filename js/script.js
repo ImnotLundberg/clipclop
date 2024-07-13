@@ -1,9 +1,9 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
     // DOM Elements
     const overlayArea = document.getElementById('overlay-area');
-    const buttonGameBar = document.getElementById("button-game-bar");
+    const buttonGameBar = document.getElementById('button-game-bar');
     const image = document.querySelector('#game-area img');
     const gameBar = document.getElementById('game-bar');
     const wideButton = document.querySelector('.wide-button');
@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let activeTouchId = null;
     let increment = 0;
     let timeLeft = 30;
+
     const fontSize = 120;
     const decrementInterval = 1000;
 
@@ -67,24 +68,23 @@ document.addEventListener('DOMContentLoaded', function () {
         '-----': '0'
     };
 
-
     // Initialize on page load
     updateIncrementDisplay();
 
     // Button overlay click handler
-    buttonGameBar.addEventListener("click", function () {
+    buttonGameBar.addEventListener('click', () => {
         if (!countdownActive) {
             isButtonGameBurActive = !isButtonGameBurActive;
 
             if (isButtonGameBurActive) {
-                buttonGameBar.classList.add("pulsing");
+                buttonGameBar.classList.add('pulsing');
                 buttonGameBar.style.opacity = 0.9;
                 buttonPanel.classList.add('button-panel-hidden');
                 buttonPanelTop.classList.add('button-panel-hidden');
                 helpPanel.classList.add('help-panel-visible');
                 helpPanel.classList.remove('help-panel-hidden');
             } else {
-                buttonGameBar.classList.remove("pulsing");
+                buttonGameBar.classList.remove('pulsing');
                 buttonGameBar.style.opacity = 1;
                 buttonPanel.classList.remove('button-panel-hidden');
                 buttonPanelTop.classList.remove('button-panel-hidden');
@@ -96,47 +96,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Update morseBar visibility based on overlay state
     function updateMorseBarVisibility() {
-        if (isButtonGameBurActive) {
-            morseBar.style.opacity = '1';
-        } else {
-            morseBar.style.opacity = '0';
-        }
+        morseBar.style.opacity = isButtonGameBurActive ? '1' : '0';
     }
 
     function fillWideButton(percent) {
-
-        let fillColor;
-
         let red, green, blue;
+
         if (percent < 25) {
-            // Если процент меньше 25, используем градиент от первого к второму цвету
             red = 255;
             green = Math.round(127 + (percent / 25) * (178 - 127));
             blue = Math.round(80 + (percent / 25) * (102 - 80));
         } else if (percent < 50) {
-            // Если процент от 25 до 50, используем градиент от второго к третьему цвету
             red = 255;
             green = Math.round(178 + ((percent - 25) / 25) * (255 - 178));
-            blue = Math.round(102);
+            blue = 102;
         } else if (percent < 75) {
-            // Если процент от 50 до 75, используем градиент от третьего к четвертому цвету
             red = Math.round(255 - ((percent - 50) / 25) * (255 - 102));
             green = 255;
-            blue = Math.round(102);
+            blue = 102;
         } else {
-            // Если процент от 75 до 100, используем градиент от четвертого цвета к белому
-            red = Math.round(102);
-            green = Math.round(255);
-            blue = Math.round(102);
+            red = 102;
+            green = 255;
+            blue = 102;
         }
 
-        fillColor = `rgba(${red}, ${green}, ${blue}, 0.9)`; // Формируем цвет в формате RGBA
-
-        // Устанавливаем стиль фона с использованием линейного градиента
+        const fillColor = `rgba(${red}, ${green}, ${blue}, 0.9)`;
         wideButton.style.background = `linear-gradient(to right, ${fillColor} ${percent}%, white ${percent}%)`;
     }
-
-
 
     // Update increment display
     function updateIncrementDisplay() {
@@ -217,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Touch cancel event handler on image
-    image.addEventListener('touchcancel', (event) => {
+    image.addEventListener('touchcancel', () => {
         resetImageSize();
         activeTouchId = null;
     });
@@ -311,10 +297,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Handle game end
-
     function handleGameEnd() {
-        gameEndCount++; // Increment the counter
-
+        gameEndCount++;
         countdownActive = false;
 
         setTimeout(() => {
@@ -328,14 +312,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 buttonGameBar.style.opacity = 1;
                 buttonPanel.classList.remove('button-panel-hidden');
                 buttonPanelTop.classList.remove('button-panel-hidden');
-                helpPanel.classList.remove('help-panel-visible'); // hide help panel
-                helpPanel.classList.add('help-panel-hidden');     // add hidden class
+                helpPanel.classList.remove('help-panel-visible');
+                helpPanel.classList.add('help-panel-hidden');
                 currentIndex = 0;
                 startCountdown();
             }, 2000);
         }, 2500);
     }
-
 
     // Start countdown timer
     function startCountdown() {
@@ -391,39 +374,36 @@ document.addEventListener('DOMContentLoaded', function () {
     }, decrementInterval);
 
     buttons.forEach(button => {
-      button.addEventListener('click', async () => {
-        if (button === activeButton) {
-          // Скрыть overlay и убрать активное состояние с кнопки
-          overlayArea.style.display = 'none';
-          button.classList.remove('active');
-          activeButton = null;
-        } else {
-          // Сброс активного состояния с другой кнопки, если есть
-          if (activeButton) {
-            activeButton.classList.remove('active');
-          }
-          // Установить текущее активное состояние на нажатую кнопку
-          activeButton = button;
-          button.classList.add('active');
-
-          // Загрузка содержимого из файла
-          const contentUrl = button.getAttribute('data-content');
-          try {
-            const response = await fetch(contentUrl);
-            if (response.ok) {
-              const content = await response.text();
-              overlayContent.innerHTML = content;
-              overlayArea.style.display = 'block';
+        button.addEventListener('click', async () => {
+            if (button === activeButton) {
+                overlayArea.style.display = 'none';
+                button.classList.remove('active');
+                activeButton = null;
             } else {
-              overlayContent.innerHTML = 'Ошибка загрузки содержимого.';
-              overlayArea.style.display = 'block';
+                if (activeButton) {
+                    activeButton.classList.remove('active');
+                }
+
+                activeButton = button;
+                button.classList.add('active');
+
+                const contentUrl = button.getAttribute('data-content');
+                try {
+                    const response = await fetch(contentUrl);
+                    if (response.ok) {
+                        const content = await response.text();
+                        overlayContent.innerHTML = content;
+                        overlayArea.style.display = 'block';
+                    } else {
+                        overlayContent.innerHTML = 'Ошибка загрузки содержимого.';
+                        overlayArea.style.display = 'block';
+                    }
+                } catch (error) {
+                    overlayContent.innerHTML = 'Ошибка загрузки содержимого.';
+                    overlayArea.style.display = 'block';
+                }
             }
-          } catch (error) {
-            overlayContent.innerHTML = 'Ошибка загрузки содержимого.';
-            overlayArea.style.display = 'block';
-          }
-        }
-      });
+        });
     });
 
 });
