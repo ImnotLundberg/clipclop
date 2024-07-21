@@ -69,6 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
         '-----': '0'
     };
 
+    // New variables for score
+    let score = 0; // This will keep track of the score
+    const pointsPerWord = 10; // Points awarded for completing a word
+
     // Initialize on page load
     updateIncrementDisplay();
 
@@ -301,6 +305,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleGameEnd() {
         gameEndCount++;
         countdownActive = false;
+
+        // Update score
+        score += pointsPerWord;
 
         setTimeout(() => {
             buttonGameBar.classList.add('game-over-animation');
