@@ -90,6 +90,11 @@ body {
     color: white;
     font-weight: 1000;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    background-size: 400% 100%;
+}
+.pulsing {
+    animation: pulse 0.15s infinite, gradientShift 1s ease infinite;
+    background: linear-gradient(to left, rgba(255, 255, 102, 0.7), rgba(102, 255, 102, 0.7), rgba(102, 255, 255, 0.7));
 }
 
 .overlay-title {
@@ -276,6 +281,7 @@ body {
     font-size: 120px;
     color: rgba(255, 255, 255, 1.0);
     transition: transform 1.3s linear, opacity 1.4s linear;
+    z-index: 1000;
 }
 
 /* Стили для символов "🧁" и "🍭" */
@@ -303,6 +309,9 @@ body {
 
 /* Общие стили для кнопок */
 .button {
+    color: white;
+    font-weight: 1000;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     width: 80px;
     height: 80px;
     border-radius: 10px;

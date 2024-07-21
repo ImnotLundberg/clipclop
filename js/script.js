@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const decrementInterval = 1000;
 
     // Target array of characters
-    const targetArray = ['t', 'h', 'i', 'n', 'k'];
+    const targetArray = ['t'];
     let currentIndex = 0;
 
     // Constants and values
@@ -51,8 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const fadeOutDuration = 1000;
     const fadeInClass = 'fade-in';
     const fadeOutClass = 'fade-out';
-    const pointsPerWord = 10; // Points awarded for completing a word
-
+    const pointsPerWord = 900; // Points awarded for completing a word
+    const numCoins = 20; // Количество монет для анимации
+    const delayBetweenCoins = 100; // Задержка между каждой монетой в миллисекундах
+    const durationSymbolCoin = 500; // Продолжительность анимации одной монеты
+    const totalCoinAnimationDuration = (numCoins - 1) * delayBetweenCoins + durationSymbolCoin; // Рассчитайте полную продолжительность анимации монет
+    const durationScore = Math.min(totalCoinAnimationDuration, 5000); // Установите продолжительность анимации счета
 
     // Symbols
     const poopSymbol = '💩';
@@ -60,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lollipopSymbol = '🍭';
     const dotSymbol = '·';
     const dashSymbol = '-';
+    const coinSymbol = '🪙';
 
     // Morse Alphabet
     const morseAlphabet = {
@@ -75,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize on page load
     updateIncrementDisplay();
+    updateMyScore();
 
     // Button overlay click handler
     buttonGameBar.addEventListener('click', () => {
@@ -132,6 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update increment display
     function updateIncrementDisplay() {
         incrementDisplay.textContent = `${increment}%`;
+    }
+
+    function updateMyScore() {
+        myScore.textContent = score;
     }
 
     // Decrease image size on touch
@@ -301,30 +311,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Handle game end
+    function formatScore(value) {
+        if (value >= 1000000000) {
+            // Форматирует значение в миллиарды и добавляет 'b', округляя до одной десятичной точки
+            return (value / 1000000000).toFixed(1).replace(/\.0$/, '') + 'b';
+        } else if (value >= 1000000) {
+            // Форматирует значение в миллионы и добавляет 'm', округляя до одной десятичной точки
+            return (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'm';
+        } else if (value >= 1000) {
+            // Форматирует значение в тысячи и добавляет 'k', округляя до одной десятичной точки
+            return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+        }
+        return value; // Возвращает значение без изменений, если оно меньше 1000
+    }
+
     function handleGameEnd() {
         gameEndCount++;
         countdownActive = false;
 
         // Calculate the new score
         const startScore = score;
-        score += pointsPerWord;
+        score += pointsPerWord; // Обновляем внутреннюю переменную score
         const endScore = score;
 
         // Animation duration in milliseconds
-        const duration = 1000;
+        const durationScore = Math.min(totalCoinAnimationDuration, 5000);
         let startTime = null;
 
         function animateCounter(timestamp) {
-            if (!startTime) startTime = timestamp;
+            if (!startTime) {
+                startTime = timestamp;
+                myScore.classList.add('pulsing'); // Add pulse animation class at the start
+            }
             const progress = timestamp - startTime;
-            const currentScore = Math.min(startScore + (progress / duration) * (endScore - startScore), endScore);
-            myScore.innerText = Math.floor(currentScore);
+            const currentScore = Math.min(startScore + (progress / durationScore) * (endScore - startScore), endScore);
+            myScore.innerText = formatScore(Math.floor(currentScore)); // Use formatScore function
 
-            if (progress < duration) {
+            if (progress < durationScore) {
                 requestAnimationFrame(animateCounter);
             } else {
-                myScore.innerText = endScore; // Ensure the final score is set
+                myScore.innerText = formatScore(endScore); // Ensure the final score is set
+                myScore.classList.remove('pulsing'); // Remove pulse animation class at the end
             }
         }
 
@@ -346,10 +373,68 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Start the score animation
                 requestAnimationFrame(animateCounter);
 
+                // Create and animate multiple floating coins
+                createFloatingCoins();
+
                 startCountdown();
             }, 2000);
         }, 2500);
     }
+
+
+    // Create and animate multiple floating coins
+    function createFloatingCoins() {
+
+        for (let i = 1; i < numCoins; i++) {
+            setTimeout(() => {
+                const coinElement = document.createElement('div');
+                coinElement.textContent = coinSymbol;
+                coinElement.className = 'symbol';
+                coinElement.style.fontSize = `40px`;
+
+                // Получаем размеры и позицию gameBar
+                const gameBarRect = gameBar.getBoundingClientRect();
+                const gameBarCenterX = gameBarRect.left + window.scrollX + (gameBarRect.width / 2);
+                const gameBarCenterY = gameBarRect.top + window.scrollY + (gameBarRect.height / 2);
+
+                coinElement.style.position = 'absolute';
+                coinElement.style.left = `${gameBarCenterX}px`;
+                coinElement.style.top = `${gameBarCenterY}px`;
+                coinElement.style.transform = 'translate(-50%, -50%)'; // Центрирование по середине элемента
+
+                document.body.appendChild(coinElement);
+
+                // Начальная и конечная позиции
+                const scoreRect = myScore.getBoundingClientRect();
+                const scoreCenterX = scoreRect.left + window.scrollX + (scoreRect.width / 2);
+                const scoreCenterY = scoreRect.top + window.scrollY + (scoreRect.height / 2);
+
+                let startTime;
+
+                function animateCoin(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    const progress = timestamp - startTime;
+                    const progressRatio = Math.min(progress / durationSymbolCoin, 1);
+
+                    const x = gameBarCenterX + (scoreCenterX - gameBarCenterX) * progressRatio;
+                    const y = gameBarCenterY + (scoreCenterY - gameBarCenterY) * progressRatio;
+
+                    coinElement.style.left = `${x}px`;
+                    coinElement.style.top = `${y}px`;
+                    coinElement.style.opacity = 0.3 - progressRatio;
+
+                    if (progress < durationSymbolCoin) {
+                        requestAnimationFrame(animateCoin);
+                    } else {
+                        coinElement.remove();
+                    }
+                }
+
+                requestAnimationFrame(animateCoin);
+            }, i * delayBetweenCoins); // Задержка запуска анимации каждой монеты
+        }
+    }
+
 
 
     // Start countdown timer
