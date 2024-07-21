@@ -86,6 +86,12 @@ body {
 
 }
 
+#score {
+    color: white;
+    font-weight: 1000;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
 .overlay-title {
     font-size: 24px; /* Размер шрифта */
     color: #ff6347; /* Цвет текста */

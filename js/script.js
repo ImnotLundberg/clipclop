@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.button');
     const overlayContent = document.getElementById('overlay-content');
     const overlayTitle = document.getElementById('overlay-title');
+    const myScore = document.getElementById('score');
 
     // Variables
     let activeButton = null;
@@ -28,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeTouchId = null;
     let increment = 0;
     let timeLeft = 30;
+    let score = 0;
 
     const fontSize = 120;
     const decrementInterval = 1000;
@@ -49,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const fadeOutDuration = 1000;
     const fadeInClass = 'fade-in';
     const fadeOutClass = 'fade-out';
+    const pointsPerWord = 10; // Points awarded for completing a word
+
 
     // Symbols
     const poopSymbol = '💩';
@@ -68,10 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         '·····': '5', '-····': '6', '--···': '7', '---··': '8', '----·': '9',
         '-----': '0'
     };
-
-    // New variables for score
-    let score = 0; // This will keep track of the score
-    const pointsPerWord = 10; // Points awarded for completing a word
 
     // Initialize on page load
     updateIncrementDisplay();
@@ -306,8 +306,27 @@ document.addEventListener('DOMContentLoaded', () => {
         gameEndCount++;
         countdownActive = false;
 
-        // Update score
+        // Calculate the new score
+        const startScore = score;
         score += pointsPerWord;
+        const endScore = score;
+
+        // Animation duration in milliseconds
+        const duration = 1000;
+        let startTime = null;
+
+        function animateCounter(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = timestamp - startTime;
+            const currentScore = Math.min(startScore + (progress / duration) * (endScore - startScore), endScore);
+            myScore.innerText = Math.floor(currentScore);
+
+            if (progress < duration) {
+                requestAnimationFrame(animateCounter);
+            } else {
+                myScore.innerText = endScore; // Ensure the final score is set
+            }
+        }
 
         setTimeout(() => {
             buttonGameBar.classList.add('game-over-animation');
@@ -323,10 +342,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 helpPanel.classList.remove('help-panel-visible');
                 helpPanel.classList.add('help-panel-hidden');
                 currentIndex = 0;
+
+                // Start the score animation
+                requestAnimationFrame(animateCounter);
+
                 startCountdown();
             }, 2000);
         }, 2500);
     }
+
 
     // Start countdown timer
     function startCountdown() {
